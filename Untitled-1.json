@@ -1,0 +1,260 @@
+{
+  "widgets": [
+    {
+      "label": "politics",
+      "weblink": "",
+      "_type": "list",
+      "_sec_id": "95270652",
+      "_count": "7",
+      "row": "0",
+      "_actuallabel": "राजकारण"
+    },
+    {
+      "label": "webstories",
+      "weblink": "",
+      "_type": "list",
+      "_sec_id": "85765037",
+      "_count": "9",
+      "_m_count": "9",
+      "row": "1",
+      "component": {
+        "desktop": "orgWebstory",
+        "mobile": "orgWebstory"
+      }
+    },
+    {
+      "label": "movie",
+      "weblink": "/entertainment/articlelist/.cms",
+      "_type": "list",
+      "_count": "14",
+      "row": "3",
+      "_sec_id": "19359255",
+      "component": {
+        "desktop": "org2"
+      }
+    },
+    {
+      "label": "city",
+      "weblink": "/maharashtra/articlelist/.cms",
+      "_sec_id": "2429066",
+      "_m_count": "8",
+      "_type": "list",
+      "_rlvideoid": "5314584",
+      "_rlvideo_hl": "true",
+      "_count": "10",
+      "row": "4",
+      "component": {
+        "desktop": "org4"
+      }
+    },
+    {
+      "label": "business",
+      "weblink": "/business/articlelist/.cms",
+      "_sec_id": "47416711",
+      "_type": "list",
+      "_count": "10",
+      "row": "11",
+      "component": {
+        "desktop": "org1"
+      },
+      "col": "8"
+    },
+    {
+      "label": "sports",
+      "weblink": "/sports/articlelist/.cms",
+      "_sec_id": "2429056",
+      "_rlvideoid": "5314607",
+      "_rlvideo_hl": "true",
+      "_count": "7",
+      "_type": "list",
+      "row": "5",
+      "col": "4",
+      "_actuallabel": "क्रीडा"
+    },
+    {
+      "label": "astro",
+      "weblink": "",
+      "_sec_id": "2428946",
+      "_count": "5",
+      "_type": "list",
+      "_actuallabel": "भविष्य",
+      "row": "9",
+      "col": "8",
+      "component": {
+        "desktop": "org1"
+      }
+    },
+    {
+      "label": "mumbai",
+      "weblink": "",
+      "_sec_id": "2429656",
+      "_count": "7",
+      "_type": "list",
+      "row": "5",
+      "col": "4"
+    },
+    {
+      "label": "international",
+      "weblink": "",
+      "_type": "list",
+      "_sec_id": "47416501",
+      "_count": "7",
+      "row": "5",
+      "col": "4"
+    },
+    {
+      "label": "lifestyle",
+      "weblink": "",
+      "_sec_id": "2429025",
+      "_type": "list",
+      "_count": "10",
+      "_rlvideoid": "5314607",
+      "_rlvideo_hl": "true",
+      "row": "7",
+      "component": {
+        "desktop": "org1"
+      }
+    },
+    {
+      "label": "auto",
+      "weblink": "",
+      "_sec_id": "2499478",
+      "_rlvideoid": "81530696",
+      "_count": "7",
+      "_actuallabel": "कार-बाइक",
+      "row": "6",
+      "col": "4"
+    },
+    {
+      "label": "tech",
+      "weblink": "/gadget-news/articlelist/.cms",
+      "_sec_id": "2499221",
+      "_count": "6",
+      "_m_count": "5",
+      "_type": "list",
+      "row": "6",
+      "col": "4",
+      "_actuallabel": "इन्फोटेक"
+    },
+    {
+      "label": "education",
+      "weblink": "",
+      "_sec_id": "2429614",
+      "_count": "7",
+      "_type": "list",
+      "row": "6",
+      "col": "4",
+      "_actuallabel": "अग्रलेख"
+    },
+    {
+      "label": "photo",
+      "weblink": "",
+      "_sec_id": "49655657",
+      "_count": "4",
+      "_type": "photo",
+      "row": "10"
+    },
+    {
+      "label": "viral",
+      "weblink": "https://marathi.indiatimes.com/viral/articlelist/87623066.cms",
+      "_sec_id": "87623066",
+      "_count": "6",
+      "_type": "list",
+      "row": "12",
+      "col": "4"
+    },
+    {
+      "label": "jobs",
+      "weblink": "",
+      "_sec_id": "48189591",
+      "_count": "6",
+      "_type": "list",
+      "_actuallabel": "करिअर",
+      "row": "12",
+      "col": "4"
+    },
+    {
+      "label": "travel",
+      "weblink": "",
+      "_sec_id": "14099368",
+      "_type": "list",
+      "_count": "7",
+      "row": "12",
+      "col": "4"
+    },
+    {
+      "label": "video",
+      "weblink": "https://marathi.indiatimes.com/video/videolist/5314584.cms",
+      "_sec_id": "5314584",
+      "_nav_id": "5314584",
+      "_type": "video",
+      "row": "13"
+    },
+    {
+      "label": "Plus",
+      "weblink": "",
+      "_type": "plusWidget",
+      "row": "2"
+    },
+    {
+      "label": "religion",
+      "weblink": "",
+      "_sec_id": "50807229",
+      "_count": "6",
+      "_type": "list",
+      "row": "9",
+      "col": "4"
+    },
+    {
+      "label": "crime",
+      "weblink": "",
+      "_sec_id": "74933788",
+      "_count": "6",
+      "_type": "list",
+      "_actuallabel": "गुन्हेगारी",
+      "row": "11",
+      "col": "4"
+    },
+    {
+      "label": "photoiframe",
+      "weblink": "https://tamil.samayam.com/topgalleies_tamil_pwa.cms?channel=mt",
+      "_sec_id": "2339144",
+      "_count": "4",
+      "_type": "photoiframe",
+      "row": "14",
+      "col": "8"
+    },
+    {
+      "label": "Weather",
+      "weblink": "",
+      "_type": "weather"
+    },
+    {
+      "label": "Service Drawer",
+      "weblink": "",
+      "_type": "servicedrawer"
+    },
+    {
+      "label": "Poll",
+      "weblink": "",
+      "_type": "poll",
+      "_sec_id": "2511149",
+      "row": "8"
+    },
+    {
+      "label": "cr",
+      "weblink": "",
+      "_sec_id": "51009716",
+      "_count": "4",
+      "_type": "list",
+      "_actuallabel": "सिटीझन रिपोर्टर",
+      "row": "14",
+      "col": "4"
+    },
+    {
+      "label": "Astrology Banner",
+      "weblink": "",
+      "_type": "banner"
+    }
+  ]
+}
