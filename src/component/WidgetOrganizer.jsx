@@ -1,347 +1,214 @@
 'use client'
 
 import React, { useState } from 'react';
-import { GripVertical, Download, RefreshCw, Plus, Trash2, Upload } from 'lucide-react';
+import { GripVertical, RefreshCw, Plus, Upload } from 'lucide-react';
 
 const WidgetOrganizer = () => {
   const [widgets, setWidgets] = useState([
-    {
-      "label": "corona",
-      "weblink": "/tech",
-      "_type": "list",
-      "_sec_id": "19615041",
-      "msid": "75432298",
-      "_count": "9",
-      "_m_count": "9",
-      "_actuallabel": "टेक",
-      "row": "0",
-      "col": "4"
-    },
-    {
-      "label": "government_schemes",
-      "_type": "iframe",
-      "weblink": "https://navbharattimes.indiatimes.com/in-focus/schemes/government?host=nbt",
-      "row": "1"
-    },
-    {
-      "label": "loksabha-elections",
-      "_sec_id": "38417799",
-      "_count": "10",
-      "_m_count": "8",
-      "_type": "list",
-      "_rlvideoid": "4901881",
-      "row": "2",
-      "_actuallabel": "इजरायल-ईरान युद्ध"
-    },
-    {
-      "label": "webstories",
-      "weblink": "",
-      "_sec_id": "75432298",
-      "_type": "list",
-      "_rlvideoid": "4901886",
-      "_count": "10",
-      "row": "3"
-    },
-    {
-      "label": "Plus",
-      "weblink": "",
-      "_count": "11",
-      "_type": "plusWidget",
-      "override": "https://apnabazaar.indiatimes.com",
-      "host": "apnabazaar",
-      "row": "4"
-    },
-    {
-      "label": "india",
-      "weblink": "",
-      "_sec_id": "1564454",
-      "_count": "6",
-      "_type": "list",
-      "row": "10",
-      "col": "4"
-    },
-    {
-      "label": "cricket",
-      "weblink": "",
-      "_type": "list",
-      "row": "19",
-      "_sec_id": "3521869"
-    },
-    {
-      "label": "movie",
-      "_star": "false",
-      "_sec_id": "2279793",
-      "msid": "",
-      "_listtype": "",
-      "_count": "10",
-      "_m_count": "10",
-      "_type": "list",
-      "override": "https://navbharattimes.indiatimes.com/world/uae/articlelist/38417799.cms",
-      "row": "5",
-      "weblink": ""
-    },
-    {
-      "label": "city",
-      "weblink": "/state/articlelist/.cms",
-      "_type": "list",
-      "_sec_id": "2279808",
-      "_rlvideoid": "20104392",
-      "_count": "5",
-      "row": "6"
-    },
-    {
-      "label": "business",
-      "weblink": "",
-      "_sec_id": "2279786",
-      "_type": "list",
-      "_rlvideoid": "11873677",
-      "row": "13",
-      "col": "8"
-    },
-    {
-      "label": "personal_finance",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "18558220",
-      "_type": "list",
-      "_count": "3",
-      "_actuallabel": "पर्सनल फाइनेंस",
-      "row": "13",
-      "col": "4"
-    },
-    {
-      "label": "apanabazaar",
-      "weblink": "",
-      "_type": "list",
-      "_count": "20",
-      "row": "18",
-      "_actuallabel": "अपना बाजार",
-      "_sec_id": "2147478187"
-    },
-    {
-      "label": "metro",
-      "weblink": "",
-      "_type": "list",
-      "_sec_id": "48899289",
-      "row": "10",
-      "col": "4",
-      "_actuallabel": "गुड न्यूज"
-    },
-    {
-      "label": "sports",
-      "weblink": "",
-      "_sec_id": "109034025",
-      "_count": "7",
-      "_type": "list",
-      "_actuallabel": "अमेरिका ",
-      "row": "7",
-      "col": "4"
-    },
-    {
-      "label": "world",
-      "weblink": "",
-      "_sec_id": "2279801",
-      "_count": "7",
-      "_type": "list",
-      "row": "7",
-      "col": "4"
-    },
-    {
-      "label": "auto",
-      "weblink": "",
-      "_sec_id": "2354730",
-      "_m_count": "4",
-      "_type": "list",
-      "_count": "8",
-      "row": "8",
-      "col": "4"
-    },
-    {
-      "label": "tech",
-      "weblink": "",
-      "_sec_id": "33503484",
-      "_count": "8",
-      "_type": "list",
-      "_rlvideoid": "",
-      "row": "8",
-      "col": "4",
-      "_actuallabel": "मेट्रो"
-    },
-    {
-      "label": "lifestyle",
-      "weblink": "",
-      "_sec_id": "2354729",
-      "_count": "16",
-      "_m_count": "5",
-      "_type": "list",
-      "_rlvideoid": "57791552",
-      "row": "9"
-    },
-    {
-      "label": "video",
-      "weblink": "",
-      "_actuallabel": "वीडियो",
-      "_sec_id": "4901865",
-      "_nav_id": "4901865",
-      "_type": "video",
-      "row": "17"
-    },
-    {
-      "label": "astro",
-      "weblink": "",
-      "_sec_id": "17127056",
-      "_type": "list",
-      "_actuallabel": "राशिफल",
-      "_rlvideoid": "48972527",
-      "row": "11",
-      "col": "8"
-    },
-    {
-      "label": "education",
-      "weblink": "",
-      "_sec_id": "2279784",
-      "_count": "6",
-      "_type": "list",
-      "_rlvideoid": "59541120",
-      "row": "8",
-      "col": "4"
-    },
-    {
-      "label": "Poll",
-      "weblink": "",
-      "_sec_id": "696089404",
-      "_count": "6",
-      "_mcount": "4",
-      "_type": "poll",
-      "row": "10",
-      "col": "4"
-    },
-    {
-      "label": "factcheck",
-      "weblink": "",
-      "_sec_id": "93273647",
-      "_type": "list",
-      "_actuallabel": "क्राइम",
-      "row": "14",
-      "col": "4"
-    },
-    {
-      "label": "photo",
-      "weblink": "https://navbharattimes.indiatimes.com/photomazza/photoarticlelist/2339144.cms",
-      "_sec_id": "2339144",
-      "_type": "photo",
-      "row": "12"
-    },
-    {
-      "label": "Service Drawer",
-      "weblink": "",
-      "_type": "servicedrawer"
-    },
-    {
-      "label": "travel",
-      "weblink": "",
-      "_sec_id": "17127056",
-      "_count": "4",
-      "_type": "list",
-      "_actuallabel": "धर्म",
-      "row": "11",
-      "col": "4"
-    },
-    {
-      "label": "jobs",
-      "weblink": "",
-      "_sec_id": "47479886",
-      "_count": "4",
-      "_type": "list",
-      "_actuallabel": "जॉब्स",
-      "row": "14",
-      "col": "4"
-    },
-    {
-      "label": "photoiframe",
-      "weblink": "https://tamil.samayam.com/topgalleies_tamil_pwa.cms?channel=mt",
-      "_sec_id": "2339144",
-      "_count": "4",
-      "_type": "photoiframe",
-      "row": "16",
-      "col": "8"
-    },
-    {
-      "label": "jokes",
-      "weblink": "",
-      "_sec_id": "120721512",
-      "_count": "4",
-      "_type": "list",
-      "_actuallabel": "WWE",
-      "row": "16",
-      "col": "4"
-    },
-    {
-      "label": "viral",
-      "weblink": "",
-      "_sec_id": "82150262",
-      "_count": "5",
-      "_type": "list",
-      "row": "15",
-      "col": "4"
-    },
-    {
-      "label": "vichar",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "2007740431",
-      "_count": "5",
-      "_type": "list"
-    },
-    {
-      "label": "nbtblogs",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "22797821",
-      "_count": "3",
-      "_type": "list",
-      "row": "15",
-      "col": "4"
-    },
-    {
-      "label": "readerblogs",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "22797822",
-      "_count": "2",
-      "_type": "list"
-    },
-    {
-      "label": "cr",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "64679468",
-      "_type": "list",
-      "_actuallabel": "यात्रा",
-      "row": "14",
-      "col": "4"
-    },
-    {
-      "label": "Weather",
-      "weblink": "",
-      "_type": "weather",
-      "_platform": "desktop"
-    },
-    {
-      "label": "plvideos",
-      "weblink": "",
-      "_rlvideoid": "11872954"
-    },
-    {
-      "label": "goldfallback",
-      "weblink": "",
-      "_type": "list",
-      "_actuallabel": "टीवी",
-      "_count": "3",
-      "_sec_id": "65685377"
-    }
+      {
+        "label": "webstories",
+        "weblink": "",
+        "_type": "list",
+        "_sec_id": "85765840",
+        "_count": "9",
+        "_m_count": "9",
+        "row": "3"
+      },
+      {
+        "label": "movie",
+        "_type": "list",
+        "weblink": "",
+        "row": "1",
+        "_sec_id": "10738512"
+      },
+      {
+        "label": "business",
+        "weblink": "",
+        "_sec_id": "10738503",
+        "_type": "list",
+        "_rlvideoid": "50075709",
+        "row": "6"
+      },
+      {
+        "label": "loksabha-elections",
+        "_star": "false",
+        "_sec_id": "180203010200",
+        "msid": "",
+        "_listtype": "taxonomy",
+        "_count": "10",
+        "_m_count": "10",
+        "_type": "list",
+        "override": "https://vijaykarnataka.com/bengaluru/about-bengaluru-citizens-services",
+        "_actuallabel": "Bangalore Civil Services",
+        "row": "2"
+      },
+      {
+        "label": "tech",
+        "weblink": "",
+        "_type": "list",
+        "_sec_id": "60023487",
+        "_count": "7",
+        "row": "10",
+        "col": "4"
+      },
+      {
+        "label": "astro",
+        "weblink": "",
+        "_sec_id": "10738518",
+        "_count": "4",
+        "_type": "list",
+        "_rlvideoid": "66705082",
+        "row": "12",
+        "col": "8"
+      },
+      {
+        "label": "city",
+        "weblink": "",
+        "_sec_id": "71478549",
+        "_count": "10",
+        "_type": "list",
+        "_rlvideoid": "50075603",
+        "row": "5"
+      },
+      {
+        "label": "lifestyle",
+        "weblink": "",
+        "_sec_id": "57869229",
+        "_count": "17",
+        "_type": "list",
+        "_rlvideoid": "60309735",
+        "row": "9"
+      },
+      {
+        "label": "government_schemes",
+        "weblink": "https://vijaykarnataka.com/in-focus/schemes/government?host=vk",
+        "_count": "11",
+        "_type": "iframe",
+        "_rlvideoid": "50075616",
+        "row": "0",
+        "col": "4"
+      },
+      {
+        "label": "auto",
+        "weblink": "",
+        "_sec_id": "70757673",
+        "_type": "list",
+        "_rlvideoid": "60309764",
+        "row": "10",
+        "col": "4",
+        "_count": "7",
+        "_actuallabel": "Automobile"
+      },
+      {
+        "label": "travel",
+        "weblink": "",
+        "_sec_id": "70891136",
+        "_count": "6",
+        "_type": "list",
+        "_rlvideoid": "70891491",
+        "row": "4"
+      },
+      {
+        "label": "photo",
+        "weblink": "",
+        "_type": "photo",
+        "_sec_id": "47911469",
+        "row": "7"
+      },
+      {
+        "label": "corona",
+        "weblink": "",
+        "_sec_id": "10738520",
+        "_count": "6",
+        "_type": "list",
+        "_actuallabel": "Sports News",
+        "_rlvideoid": "71395281",
+        "row": "10",
+        "col": "4"
+      },
+      {
+        "label": "education",
+        "weblink": "",
+        "_sec_id": "67881877",
+        "_count": "4",
+        "_type": "list",
+        "_rlvideoid": "74062505",
+        "row": "8",
+        "col": "4"
+      },
+      {
+        "label": "crime",
+        "weblink": "",
+        "_sec_id": "10765232",
+        "_count": "5",
+        "_type": "list",
+        "row": "12",
+        "col": "4"
+      },
+      {
+        "label": "Weather",
+        "weblink": "",
+        "_type": "weather",
+        "row": "20"
+      },
+      {
+        "label": "Poll",
+        "weblink": "",
+        "_type": "poll",
+        "_sec_id": "11181707",
+        "row": "13",
+        "col": "4"
+      },
+      {
+        "label": "Service Drawer",
+        "weblink": "",
+        "_type": "servicedrawer"
+      },
+      {
+        "label": "jobs",
+        "weblink": "",
+        "_sec_id": "67883630",
+        "_type": "list",
+        "row": "8",
+        "col": "4"
+      },
+      {
+        "label": "religion",
+        "weblink": "",
+        "_sec_id": "70757501",
+        "_type": "list",
+        "_rlvideoid": "72254514",
+        "row": "8",
+        "col": "4"
+      },
+      {
+        "label": "viral",
+        "weblink": "",
+        "_sec_id": "71395137",
+        "_count": "7",
+        "_type": "list",
+        "_actuallabel": "Viral Cross",
+        "row": "11",
+        "col": "4"
+      },
+      {
+        "label": "photoiframe",
+        "weblink": "https://tamil.samayam.com/topgalleies_tamil_pwa.cms?channel=mt",
+        "_sec_id": "2339144",
+        "_count": "4",
+        "_type": "photoiframe",
+        "row": "11",
+        "col": "8"
+      },
+      {
+        "label": "video",
+        "weblink": "",
+        "_sec_id": "49909262",
+        "_nav_id": "49909262",
+        "_type": "video",
+        "row": "14"
+      }
   ]);
-
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverItem, setDragOverItem] = useState(null);
   const [output, setOutput] = useState('');
@@ -360,9 +227,9 @@ const WidgetOrganizer = () => {
 
   const handleWidgetUpdate = () => {
     const updatedWidgets = [...widgets];
-    const idx = widgets.findIndex(w => w.label === selectedWidget.label && w._sec_id === selectedWidget._sec_id);
-    if (idx !== -1) {
-      updatedWidgets[idx] = selectedWidget;
+    const originalIndex = widgets.findIndex(w => w.label === selectedWidget.label && w._sec_id === selectedWidget._sec_id);
+    if (originalIndex !== -1) {
+      updatedWidgets[originalIndex] = selectedWidget;
       setWidgets(updatedWidgets);
     }
     setIsModalOpen(false);
@@ -421,30 +288,20 @@ const WidgetOrganizer = () => {
     dropWidget._type = tempWidget._type;
     dropWidget._sec_id = tempWidget._sec_id;
 
-    // Update row and col positions
-    const updatedWidgets = newWidgets.map((widget, index) => {
-      const updated = {
-        ...widget,
-        row: String(parseInt(widget.row))
-      };
-      // Only include col if it is a valid value
-      if (widget.col !== undefined && widget.col !== null) {
-        updated.col = String(parseInt(widget.col));
-      } else {
-        delete updated.col;
-      }
-      // Remove originalIndex if present
-      if (updated.originalIndex !== undefined) {
-        delete updated.originalIndex;
-      }
-      return updated;
-    });
+    // Remove dragged item
+    // newWidgets.splice(draggedItem, 1);
     
-    updatedWidgets[draggedItem] = {
-      ...updatedWidgets[draggedItem],
-      row: targetRow
-    };
-
+    // // Insert at new position
+    // const insertIndex = draggedItem < dropIndex ? dropIndex - 1 : dropIndex;
+    // newWidgets.splice(insertIndex, 0, draggedWidget);
+    
+    // Update row and col positions
+    const updatedWidgets = newWidgets.map((widget, index) => ({
+      ...widget,
+      row: widget.row ? String(parseInt(widget.row)) : null,
+      col: widget.col ? String(parseInt(widget.col)) : null
+    }));
+    
     setWidgets(updatedWidgets);
     setDraggedItem(null);
     setDragOverItem(null);
@@ -456,12 +313,16 @@ const WidgetOrganizer = () => {
       if (cleaned.col === null || cleaned.col === undefined) {
         delete cleaned.col;
       }
-      if (cleaned.originalIndex !== undefined) {
+      if (cleaned.row === null || cleaned.row === undefined) {
+        delete cleaned.row;
+      }
+      if (cleaned.originalIndex) {
         delete cleaned.originalIndex;
       }
       return cleaned;
     });
     const outputJson = { widgets: cleanedWidgets };
+    // const outputJson = {"widgets":widgets};
     setOutput(JSON.stringify(outputJson, null, 2));
     setShowOutput(true);
   };
@@ -470,7 +331,7 @@ const WidgetOrganizer = () => {
     // Reset to original order with updated positions
     const resetWidgets = widgets.map((widget, index) => ({
       ...widget,
-      row: String(parseInt(widget.row)),
+      row: widget.row ? String(parseInt(widget.row)) : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
     setWidgets(resetWidgets);
@@ -523,23 +384,25 @@ const WidgetOrganizer = () => {
 
   // Group widgets by row for display
   const groupedWidgets = widgets.reduce((acc, widget, index) => {
-    let newrow = widget.row || "";
+    let newrow = widget.row;
     if (widget.col) {
-      newrow = newrow + ".1";
-    } else {
+      newrow = newrow + ".10";
+    } else if (newrow) {
       newrow = newrow + "." + index;
+    } else {
+      newrow = "99";
     }
     if (!acc[newrow]) acc[newrow] = [];
-    acc[newrow].push({ ...widget });
+    acc[newrow].push({ ...widget, originalIndex: index });
     return acc;
   }, {});
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
-      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 ">
         <button
           onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-          className="w-full flex justify-between items-center hover:bg-gray-100 transition-colors p-4 rounded-lg mb-4"
+          className="w-full flex justify-between items-center hover:bg-gray-100 transition-colors p-4 rounded-lg mb-4 bg-gray-50 rounded-lg border border-gray-200 "
         >
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Widget Layout Organizer</h1>
           <svg
@@ -551,6 +414,7 @@ const WidgetOrganizer = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
+        
         <div 
           id="accordian"
           className={`grid transition-all duration-200 ease-in-out ${
@@ -576,69 +440,69 @@ const WidgetOrganizer = () => {
                     <Plus size={18} />
                     Generate JSON
                   </button>
-                  <button
+                  {/* <button
                     onClick={downloadJson}
                     className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors w-full sm:w-auto"
                   >
                     <Download size={18} />
                     Download
-                  </button>
+                  </button> */}
                 </div>
-              </div>
-
-              {/* URL Uploader Section */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-500">
-                <h2 className="text-lg font-semibold mb-3">Import Widgets from URL</h2>
-                <div className="flex gap-3">
-                  <input
-                    type="url"
-                    value={urlInput}
-                    onChange={(e) => setUrlInput(e.target.value)}
-                    placeholder="Enter URL to fetch widget data"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button
-                    onClick={handleUrlFetch}
-                    disabled={isLoading}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
-                  >
-                    <Upload size={18} />
-                    {isLoading ? 'Loading...' : 'Fetch'}
-                  </button>
-                </div>
-                {error && (
-                  <div className="mt-2 text-red-500 text-sm">
-                    {error}
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
 
+        {/* URL Uploader Section */}
+        <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-500">
+          <h2 className="text-lg font-semibold mb-3">Import Widgets from URL</h2>
+          <div className="flex gap-3">
+            <input
+              type="url"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              placeholder="Enter URL to fetch widget data"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleUrlFetch}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+            >
+              <Upload size={18} />
+              {isLoading ? 'Loading...' : 'Fetch'}
+            </button>
+          </div>
+          {error && (
+            <div className="mt-2 text-red-500 text-sm">
+              {error}
+            </div>
+          )}
+        </div>
+
         {/* Widgets grid */}
         <div className="grid gap-4">
           {Object.keys(groupedWidgets).sort((a, b) => parseInt(a) - parseInt(b)).map((row) => (
-            <div key={row} className="bg-gray-100 p-2 sm:p-2 rounded-lg">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h3>
+            <div key={row} key1={row}  className="bg-gray-100 p-2 sm:p-2 rounded-lg">
+              <h6 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h6>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {groupedWidgets[row].map((widget,idx) => (
                   <div
-                    key={idx+widget.label}
+                    key={widget.originalIndex + widget.label}
                     draggable
-                    onDragStart={(e) => handleDragStart(e, idx)}
-                    onDragOver={(e) => handleDragOver(e, idx)}
+                    onDragStart={(e) => handleDragStart(e, widget.originalIndex)}
+                    onDragOver={(e) => handleDragOver(e, widget.originalIndex)}
                     onDragLeave={handleDragLeave}
-                    onDrop={(e) => handleDrop(e, idx, row)}
+                    onDrop={(e) => handleDrop(e, widget.originalIndex, row)}
                     className={`
                       relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200
                       ${getWidgetTypeColor(widget._type)}
-                      ${draggedItem === idx ? 'opacity-50 scale-95' : ''}
-                      ${dragOverItem === idx ? 'ring-2 ring-blue-400 scale-105' : ''}
+                      ${draggedItem === widget.originalIndex ? 'opacity-50 scale-95' : ''}
+                      ${dragOverItem === widget.originalIndex ? 'ring-2 ring-blue-400 scale-105' : ''}
                       hover:shadow-md hover:scale-[1.02]
                     `}
                     onClick={() => handleWidgetClick(widget)}
-                    title={`Idx: ${idx}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
+                    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">

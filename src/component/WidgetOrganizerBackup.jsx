@@ -267,6 +267,7 @@ const WidgetOrganizer = () => {
     if (draggedItem === null || draggedItem === dropIndex) {
       setDraggedItem(null);
       setDragOverItem(null);
+      alert("Drag and Drop are same location")
       return;
     }
 
@@ -307,7 +308,21 @@ const WidgetOrganizer = () => {
   };
 
   const generateOutput = () => {
-    const outputJson = {"widgets":widgets};
+    const cleanedWidgets = widgets.map(widget => {
+      const cleaned = { ...widget };
+      if (cleaned.col === null || cleaned.col === undefined) {
+        delete cleaned.col;
+      }
+      if (cleaned.row === null || cleaned.row === undefined) {
+        delete cleaned.row;
+      }
+      if (cleaned.originalIndex) {
+        delete cleaned.originalIndex;
+      }
+      return cleaned;
+    });
+    const outputJson = { widgets: cleanedWidgets };
+    // const outputJson = {"widgets":widgets};
     setOutput(JSON.stringify(outputJson, null, 2));
     setShowOutput(true);
   };
@@ -371,7 +386,7 @@ const WidgetOrganizer = () => {
   const groupedWidgets = widgets.reduce((acc, widget, index) => {
     let newrow = widget.row || "";
     if (widget.col) {
-      newrow = newrow + ".1";
+      newrow = newrow + ".10";
     } else {
       newrow = newrow + "." + index;
     }
@@ -444,8 +459,8 @@ const WidgetOrganizer = () => {
           
           <div className="grid gap-4">
             {Object.keys(groupedWidgets).sort((a, b) => parseInt(a) - parseInt(b)).map(row => (
-              <div key={row} className="bg-gray-100 p-2 rounded-lg">
-                <div className="grid grid-cols-3 gap-4">
+              <div key={row} className="bg-gray-100 p-2 rounded-lg" key1={row}>
+                <div className={`grid gap-4 grid-cols-${row.endsWith(".10") ? "3" : "0"}`}>
                   {groupedWidgets[row].map((widget) => (
                     <div
                       key={widget.originalIndex}
@@ -504,7 +519,7 @@ const WidgetOrganizer = () => {
             </pre>
             <div className="mt-3 flex gap-2">
               <button
-                onClick={() => navigator.clipboard.writeText(output)}
+                onClick={() => navigator.clipboard?.writeText(output)}
                 className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600"
               >
                 Copy to Clipboard

@@ -141,9 +141,9 @@
       "col": "4"
     },
     {
-      "label": "Weather",
+      "label": "Service Drawer",
       "weblink": "",
-      "_type": "weather",
+      "_type": "servicedrawer",
       "row": "20"
     },
     {
@@ -155,9 +155,10 @@
       "col": "4"
     },
     {
-      "label": "Service Drawer",
+      "label": "Weather",
       "weblink": "",
-      "_type": "servicedrawer"
+      "_type": "weather",
+      "row": "NaN"
     },
     {
       "label": "jobs",
