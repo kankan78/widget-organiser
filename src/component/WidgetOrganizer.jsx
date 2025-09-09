@@ -12,14 +12,16 @@ const WidgetOrganizer = () => {
         "_sec_id": "85765840",
         "_count": "9",
         "_m_count": "9",
-        "row": "3"
+        "row": "3",
+        "rowMobile": 0
       },
       {
         "label": "movie",
         "_type": "list",
         "weblink": "",
         "row": "1",
-        "_sec_id": "10738512"
+        "_sec_id": "10738512",
+        "rowMobile": 1
       },
       {
         "label": "business",
@@ -27,7 +29,8 @@ const WidgetOrganizer = () => {
         "_sec_id": "10738503",
         "_type": "list",
         "_rlvideoid": "50075709",
-        "row": "6"
+        "row": "6",
+        "rowMobile": 2
       },
       {
         "label": "loksabha-elections",
@@ -40,7 +43,8 @@ const WidgetOrganizer = () => {
         "_type": "list",
         "override": "https://vijaykarnataka.com/bengaluru/about-bengaluru-citizens-services",
         "_actuallabel": "Bangalore Civil Services",
-        "row": "2"
+        "row": "2",
+        "rowMobile": 3
       },
       {
         "label": "tech",
@@ -49,7 +53,8 @@ const WidgetOrganizer = () => {
         "_sec_id": "60023487",
         "_count": "7",
         "row": "10",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 4
       },
       {
         "label": "astro",
@@ -59,7 +64,8 @@ const WidgetOrganizer = () => {
         "_type": "list",
         "_rlvideoid": "66705082",
         "row": "12",
-        "col": "8"
+        "col": "8",
+        "rowMobile": 5
       },
       {
         "label": "city",
@@ -68,7 +74,8 @@ const WidgetOrganizer = () => {
         "_count": "10",
         "_type": "list",
         "_rlvideoid": "50075603",
-        "row": "5"
+        "row": "5",
+        "rowMobile": 6
       },
       {
         "label": "lifestyle",
@@ -77,7 +84,8 @@ const WidgetOrganizer = () => {
         "_count": "17",
         "_type": "list",
         "_rlvideoid": "60309735",
-        "row": "9"
+        "row": "9",
+        "rowMobile": 7
       },
       {
         "label": "government_schemes",
@@ -86,7 +94,8 @@ const WidgetOrganizer = () => {
         "_type": "iframe",
         "_rlvideoid": "50075616",
         "row": "0",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 8
       },
       {
         "label": "auto",
@@ -97,7 +106,8 @@ const WidgetOrganizer = () => {
         "row": "10",
         "col": "4",
         "_count": "7",
-        "_actuallabel": "Automobile"
+        "_actuallabel": "Automobile",
+        "rowMobile": 9
       },
       {
         "label": "travel",
@@ -106,14 +116,16 @@ const WidgetOrganizer = () => {
         "_count": "6",
         "_type": "list",
         "_rlvideoid": "70891491",
-        "row": "4"
+        "row": "4",
+        "rowMobile": 10
       },
       {
         "label": "photo",
         "weblink": "",
         "_type": "photo",
         "_sec_id": "47911469",
-        "row": "7"
+        "row": "7",
+        "rowMobile": 11
       },
       {
         "label": "corona",
@@ -124,7 +136,8 @@ const WidgetOrganizer = () => {
         "_actuallabel": "Sports News",
         "_rlvideoid": "71395281",
         "row": "10",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 12
       },
       {
         "label": "education",
@@ -134,7 +147,8 @@ const WidgetOrganizer = () => {
         "_type": "list",
         "_rlvideoid": "74062505",
         "row": "8",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 13
       },
       {
         "label": "crime",
@@ -143,13 +157,15 @@ const WidgetOrganizer = () => {
         "_count": "5",
         "_type": "list",
         "row": "12",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 14
       },
       {
         "label": "Weather",
         "weblink": "",
         "_type": "weather",
-        "row": "20"
+        "row": "20",
+        "rowMobile": 15
       },
       {
         "label": "Poll",
@@ -157,12 +173,14 @@ const WidgetOrganizer = () => {
         "_type": "poll",
         "_sec_id": "11181707",
         "row": "13",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 16
       },
       {
         "label": "Service Drawer",
         "weblink": "",
-        "_type": "servicedrawer"
+        "_type": "servicedrawer",
+        "rowMobile": 17
       },
       {
         "label": "jobs",
@@ -170,7 +188,8 @@ const WidgetOrganizer = () => {
         "_sec_id": "67883630",
         "_type": "list",
         "row": "8",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 18
       },
       {
         "label": "religion",
@@ -179,7 +198,8 @@ const WidgetOrganizer = () => {
         "_type": "list",
         "_rlvideoid": "72254514",
         "row": "8",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 19
       },
       {
         "label": "viral",
@@ -189,7 +209,8 @@ const WidgetOrganizer = () => {
         "_type": "list",
         "_actuallabel": "Viral Cross",
         "row": "11",
-        "col": "4"
+        "col": "4",
+        "rowMobile": 20
       },
       {
         "label": "photoiframe",
@@ -198,7 +219,8 @@ const WidgetOrganizer = () => {
         "_count": "4",
         "_type": "photoiframe",
         "row": "11",
-        "col": "8"
+        "col": "8",
+        "rowMobile": 21
       },
       {
         "label": "video",
@@ -206,10 +228,11 @@ const WidgetOrganizer = () => {
         "_sec_id": "49909262",
         "_nav_id": "49909262",
         "_type": "video",
-        "row": "14"
+        "row": "14",
+        "rowMobile": 22
       }
   ]);
-  const [draggedItem, setDraggedItem] = useState(null);
+  const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverItem, setDragOverItem] = useState(null);
   const [output, setOutput] = useState('');
   const [showOutput, setShowOutput] = useState(false);
@@ -219,6 +242,7 @@ const WidgetOrganizer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const [originalWidgets, setOriginalWidgets] = useState(null);
 
   const handleWidgetClick = (widget) => {
     setSelectedWidget(widget);
@@ -250,7 +274,7 @@ const WidgetOrganizer = () => {
   };
 
   const handleDragStart = (e, index) => {
-    setDraggedItem(index);
+    setDraggedIndex(index);
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -265,34 +289,45 @@ const WidgetOrganizer = () => {
 
   const handleDrop = (e, dropIndex, targetRow) => {
     e.preventDefault();
-    if (draggedItem === null || draggedItem === dropIndex) {
-      setDraggedItem(null);
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
       setDragOverItem(null);
       return;
     }
 
     const newWidgets = [...widgets];
-    let draggedWidget = newWidgets[draggedItem];
+    let draggedWidget = newWidgets[draggedIndex];
     let dropWidget = newWidgets[dropIndex];
     let tempWidget = {...draggedWidget};
 
-    draggedWidget.label = dropWidget.label;
-    draggedWidget._actuallabel = dropWidget._actuallabel;
-    draggedWidget.weblink = dropWidget.weblink;
-    draggedWidget._type = dropWidget._type;
-    draggedWidget._sec_id = dropWidget._sec_id;
+    // dropWidget.row && (draggedWidget.row = dropWidget.row);
+    // dropWidget.col && (draggedWidget.col = dropWidget.col);
+    if (dropWidget.col || draggedWidget.col || !(dropWidget.component || draggedWidget.component)) {
+      draggedWidget.label = dropWidget.label;
+      draggedWidget._actuallabel = dropWidget._actuallabel;
+      draggedWidget.weblink = dropWidget.weblink;
+      draggedWidget._type = dropWidget._type;
+      draggedWidget._sec_id = dropWidget._sec_id;
+      draggedWidget.rowMobile = dropWidget.rowMobile;
 
-    dropWidget.label = tempWidget.label;
-    dropWidget._actuallabel = tempWidget._actuallabel;
-    dropWidget.weblink = tempWidget.weblink;
-    dropWidget._type = tempWidget._type;
-    dropWidget._sec_id = tempWidget._sec_id;
+      // tempWidget.row && (dropWidget.row = tempWidget.row);
+      // tempWidget.col && (dropWidget.col = tempWidget.col);
+      dropWidget.label = tempWidget.label;
+      dropWidget._actuallabel = tempWidget._actuallabel;
+      dropWidget.weblink = tempWidget.weblink;
+      dropWidget._type = tempWidget._type;
+      dropWidget._sec_id = tempWidget._sec_id;
+      dropWidget.rowMobile = tempWidget.rowMobile;
+    } else {
+      draggedWidget.row = dropWidget.row;
+      dropWidget.row = tempWidget.row;
+    }
 
     // Remove dragged item
-    // newWidgets.splice(draggedItem, 1);
+    // newWidgets.splice(draggedIndex, 1);
     
     // // Insert at new position
-    // const insertIndex = draggedItem < dropIndex ? dropIndex - 1 : dropIndex;
+    // const insertIndex = draggedIndex < dropIndex ? dropIndex - 1 : dropIndex;
     // newWidgets.splice(insertIndex, 0, draggedWidget);
     
     // Update row and col positions
@@ -303,13 +338,14 @@ const WidgetOrganizer = () => {
     }));
     
     setWidgets(updatedWidgets);
-    setDraggedItem(null);
+    setDraggedIndex(null);
     setDragOverItem(null);
   };
 
   const generateOutput = () => {
-    const cleanedWidgets = widgets.map(widget => {
+    const cleanedWidgets = widgets.sort((a,b) => a.rowMobile - b.rowMobile).map(widget => {
       const cleaned = { ...widget };
+      delete cleaned.rowMobile;
       if (cleaned.col === null || cleaned.col === undefined) {
         delete cleaned.col;
       }
@@ -321,6 +357,7 @@ const WidgetOrganizer = () => {
       }
       return cleaned;
     });
+
     const outputJson = { widgets: cleanedWidgets };
     // const outputJson = {"widgets":widgets};
     setOutput(JSON.stringify(outputJson, null, 2));
@@ -371,6 +408,8 @@ const WidgetOrganizer = () => {
       const data = await response.json();
       
       if (data.widgets && Array.isArray(data.widgets)) {
+        data.widgets.forEach((widget,idx)=> widget.rowMobile = idx);
+        setOriginalWidgets(data.widgets);
         setWidgets(data.widgets);
       } else {
         throw new Error('Invalid data format. Expected an array of widgets.');
@@ -497,7 +536,7 @@ const WidgetOrganizer = () => {
                     className={`
                       relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200
                       ${getWidgetTypeColor(widget._type)}
-                      ${draggedItem === widget.originalIndex ? 'opacity-50 scale-95' : ''}
+                      ${draggedIndex === widget.originalIndex ? 'opacity-50 scale-95' : ''}
                       ${dragOverItem === widget.originalIndex ? 'ring-2 ring-blue-400 scale-105' : ''}
                       hover:shadow-md hover:scale-[1.02]
                     `}
