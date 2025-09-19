@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
     const [showSpecs, setShowSpecs] = useState(false);
     let {similarProducts=""} = product || {};
 
-    similarProducts = JSON.parse(similarProducts);
+    similarProducts = similarProducts && JSON.parse(similarProducts);
 
     const renderStars = (rating) => {
         const stars = [];
@@ -79,9 +79,10 @@ const ProductCard = ({ product }) => {
                         {product.iframe && <div className="p-2 bg-gray-50">
                             {product.iframe.includes('<iframe') ? <div dangerouslySetInnerHTML={{ __html: product.iframe }}/> : <iframe src={product.iframe} width="100%" height="160" style={{ border: '0', overflow: 'hidden' }} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>}</div>
                         }
-                        Similar Products
+                        
                         {Array.isArray(similarProducts) &&
                             <div>
+                                Similar Products
                                 {similarProducts.map((sp,i)=>
                                     (<iframe key={`sp-${i}`} src={sp} width="100%" height="160" style={{ border: '0', overflow: 'hidden' }} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>)
                                 )}
