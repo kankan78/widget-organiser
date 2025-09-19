@@ -3,30 +3,61 @@
     {
       "label": "webstories",
       "weblink": "",
-      "_sec_id": "75432298",
       "_type": "list",
-      "_count": "10",
-      "row": "3",
+      "_sec_id": "85765073",
+      "_count": "9",
+      "_m_count": "9",
+      "row": "1",
       "component": {
         "desktop": "orgWebstory",
         "mobile": "orgWebstory"
       }
     },
     {
+      "label": "business",
+      "weblink": "",
+      "_sec_id": "56197560",
+      "_count": "6",
+      "_type": "list",
+      "_rlvideoid": "72236578",
+      "row": "10",
+      "col": "8",
+      "component": {
+        "desktop": "org5"
+      }
+    },
+    {
+      "label": "corona",
+      "weblink": "",
+      "_sec_id": "79036149",
+      "_count": "4",
+      "_type": "list",
+      "_actuallabel": "ഗൾഫ് ",
+      "row": "0",
+      "col": "4"
+    },
+    {
       "label": "government_schemes",
       "_type": "iframe",
-      "weblink": "https://navbharattimes.indiatimes.com/in-focus/schemes/government?host=nbt",
-      "row": "1"
+      "weblink": "https://malayalam.samayam.com/in-focus/schemes/government?host=mly",
+      "row": "2"
+    },
+    {
+      "label": "top_stories",
+      "weblink": "",
+      "_count": "5",
+      "_sec_id": "2147478019",
+      "_type": "list",
+      "_actuallabel": "ടോപ്പ് ന്യൂസ്"
     },
     {
       "label": "movie",
-      "weblink": "",
-      "_sec_id": "2279793",
-      "_count": "7",
-      "_m_count": "8",
+      "weblink": "/malayalam-cinema/movie-news/articlelist/.cms",
+      "_sec_id": "48237399",
       "_type": "list",
-      "_rlvideoid": "4901881",
-      "row": "5",
+      "_rlvideoid": "47328670",
+      "_count": "7",
+      "row": "3",
       "component": {
         "desktop": "org1"
       },
@@ -39,202 +70,34 @@
     },
     {
       "label": "city",
-      "weblink": "/state/articlelist/.cms",
-      "_type": "list",
-      "_sec_id": "2279808",
-      "_rlvideoid": "4901886",
-      "_count": "10",
-      "row": "6",
-      "component": {
-        "desktop": "org4"
-      }
-    },
-    {
-      "label": "apanabazaar",
       "weblink": "",
-      "_sec_id": "71186319",
+      "_sec_id": "74606583",
       "_count": "10",
       "_type": "list",
-      "_actuallabel": "अपना बाजार",
-      "override": "https://apnabazaar.indiatimes.com",
-      "host": "apnabazaar",
-      "row": "20",
-      "component": {
-        "desktop": "org1"
-      }
-    },
-    {
-      "label": "india",
-      "weblink": "",
-      "_sec_id": "1564454",
-      "_count": "6",
-      "_type": "list",
-      "row": "10",
-      "col": "4"
-    },
-    {
-      "label": "Weather",
-      "weblink": "",
-      "_type": "weather",
-      "_platform": "desktop"
-    },
-    {
-      "label": "loksabha-elections",
-      "_star": "false",
-      "_sec_id": "120112050000",
-      "msid": "74439866",
-      "_listtype": "taxonomy",
-      "_count": "10",
-      "_m_count": "10",
-      "_type": "list",
-      "trending": true,
-      "_actuallabel": "बिहार चुनाव 2025",
-      "override": "https://navbharattimes.indiatimes.com/elections/assembly-elections/bihar",
-      "row": "2",
-      "component": {
-        "desktop": "org1"
-      }
-    },
-    {
-      "label": "corona",
-      "weblink": "/tech",
-      "_type": "list",
-      "_actuallabel": "टेक",
-      "_sec_id": "19615041",
-      "_count": "5",
-      "row": "0",
-      "col": "4"
-    },
-    {
-      "label": "mrec9",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "mrec9",
-      "row": "18",
-      "col": "4"
-    },
-    {
-      "label": "business",
-      "weblink": "",
-      "_sec_id": "2279786",
-      "_type": "list",
-      "row": "13",
-      "col": "8",
-      "component": {
-        "desktop": "org5"
-      }
-    },
-    {
-      "label": "personal_finance",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "18558220",
-      "_type": "list",
-      "_count": "3",
-      "_actuallabel": "पर्सनल फाइनेंस",
-      "row": "13",
-      "col": "4"
-    },
-    {
-      "label": "mrec10",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "mrec10",
-      "row": "18",
-      "col": "4"
-    },
-    {
-      "label": "Plus",
-      "weblink": "",
-      "_count": "11",
-      "_type": "plusWidget",
+      "_rlvideoid": "76766971",
       "row": "4",
       "component": {
         "desktop": "org1"
       }
     },
     {
-      "label": "metro",
-      "weblink": "",
-      "_type": "list",
-      "_sec_id": "48899289",
-      "_count": "6",
-      "row": "10",
-      "col": "4",
-      "_actuallabel": "गुड न्यूज"
-    },
-    {
-      "label": "Poll",
-      "weblink": "",
-      "_sec_id": "121967409",
-      "_type": "poll",
-      "row": "10",
-      "col": "4"
-    },
-    {
-      "label": "mrec10",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "mrec10",
-      "row": "18",
-      "col": "4"
-    },
-    {
       "label": "sports",
       "weblink": "",
-      "_sec_id": "2279790",
-      "_m_count": "4",
+      "_sec_id": "51208623",
+      "_count": "",
       "_type": "list",
-      "_count": "8",
-      "row": "8",
-      "col": "4",
-      "_actuallabel": "खेल "
-    },
-    {
-      "label": "world",
-      "weblink": "",
-      "_sec_id": "2279801",
-      "_count": "7",
-      "_type": "list",
-      "row": "7",
-      "col": "4"
-    },
-    {
-      "label": "mrec10",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "mrec10",
-      "_platform": "mobile"
-    },
-    {
-      "label": "auto",
-      "weblink": "",
-      "_sec_id": "2354730",
-      "_count": "7",
-      "_type": "list",
-      "row": "7",
-      "col": "4"
-    },
-    {
-      "label": "tech",
-      "weblink": "",
-      "_sec_id": "33503484",
-      "_count": "8",
-      "_type": "list",
-      "_rlvideoid": "",
-      "_actuallabel": "मेट्रो",
-      "row": "8",
+      "_rlvideoid": "72236586",
+      "row": "11",
       "col": "4"
     },
     {
       "label": "lifestyle",
       "weblink": "",
-      "_sec_id": "2354729",
+      "_sec_id": "47096498",
       "_count": "11",
-      "_m_count": "5",
       "_type": "list",
-      "_rlvideoid": "57791552",
-      "row": "9",
+      "_rlvideoid": "66825919",
+      "row": "7",
       "component": {
         "desktop": "org2"
       },
@@ -246,163 +109,93 @@
       }
     },
     {
-      "label": "video",
-      "weblink": "",
-      "_actuallabel": "वीडियो",
-      "_sec_id": "4901865",
-      "_nav_id": "4901865",
-      "_type": "video",
-      "row": "19"
+      "label": "mrec5",
+      "_type": "ad",
+      "adtype": "dfp",
+      "mstype": "mrec5",
+      "_platform": "desktop",
+      "row": "6",
+      "col": "6"
     },
     {
-      "label": "astro",
-      "weblink": "",
-      "_sec_id": "",
-      "_type": "list",
-      "_actuallabel": "राशिफल",
-      "_rlvideoid": "48972527",
-      "row": "11",
-      "col": "8",
-      "component": {
-        "desktop": "orgAstro",
-        "mobile": "orgAstro"
-      }
-    },
-    {
-      "label": "education",
-      "weblink": "",
-      "_sec_id": "2279784",
-      "_count": "5",
-      "_type": "list",
-      "row": "8",
-      "col": "4",
-      "widgetConfig": {
-        "ad": {
-          "adtype": "ctn",
-          "mstype": "ctnHomeD"
-        }
-      }
-    },
-    {
-      "label": "factcheck",
-      "weblink": "",
-      "_sec_id": "93273647",
-      "_type": "list",
-      "_actuallabel": "क्राइम",
-      "row": "14",
-      "col": "4"
-    },
-    {
-      "label": "photo",
-      "weblink": "https://navbharattimes.indiatimes.com/photomazza/photoarticlelist/2339144.cms",
-      "_sec_id": "2339144",
-      "_type": "photo",
-      "row": "12"
-    },
-    {
-      "label": "Service Drawer",
-      "weblink": "",
-      "_type": "servicedrawer"
+      "label": "mrec6",
+      "_type": "ad",
+      "adtype": "dfp",
+      "mstype": "mrec6",
+      "_platform": "desktop",
+      "row": "6",
+      "col": "6"
     },
     {
       "label": "travel",
       "weblink": "",
-      "_sec_id": "17127056",
-      "_count": "4",
-      "_type": "list",
-      "_actuallabel": "धर्म",
-      "row": "11",
-      "col": "4",
-      "component": {
-        "desktop": "orgHorizontal"
-      }
-    },
-    {
-      "label": "jobs",
-      "weblink": "",
-      "_sec_id": "47479886",
-      "_count": "4",
-      "_type": "list",
-      "_actuallabel": "जॉब्स",
-      "row": "14",
-      "col": "4"
-    },
-    {
-      "label": "vichar",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "2007740431",
+      "_sec_id": "55595843",
       "_count": "6",
       "_type": "list",
-      "row": "15",
-      "col": "4",
-      "component": {
-        "desktop": "orgHorizontal"
-      }
-    },
-    {
-      "label": "viral",
-      "weblink": "",
-      "_sec_id": "82150262",
-      "_count": "5",
-      "_type": "list",
-      "row": "15",
-      "col": "4",
-      "component": {
-        "desktop": "orgHorizontal"
-      }
-    },
-    {
-      "label": "nbtblogs",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "22797821",
-      "_count": "3",
-      "_type": "list"
-    },
-    {
-      "label": "readerblogs",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "22797822",
-      "_count": "2",
-      "_type": "list"
-    },
-    {
-      "label": "cr",
-      "weblink": "",
-      "_platform": "desktop",
-      "_sec_id": "64679468",
-      "_type": "list",
-      "_actuallabel": "यात्रा",
-      "row": "14",
+      "row": "8",
       "col": "4"
     },
     {
-      "label": "cricket",
+      "label": "photo",
       "weblink": "",
+      "_type": "photo",
+      "_sec_id": "47354467",
+      "row": "9",
+      "col": "4"
+    },
+    {
+      "label": "auto",
+      "weblink": "",
+      "_sec_id": "70785774",
+      "_count": "8",
       "_type": "list",
-      "_sec_id": "3521869"
+      "_actuallabel": "ഓട്ടോ",
+      "row": "5",
+      "col": "4"
     },
     {
-      "label": "plvideos",
+      "label": "tech",
       "weblink": "",
-      "_rlvideoid": "11872954"
-    },
-    {
-      "label": "goldfallback",
-      "weblink": "",
+      "_sec_id": "70499011",
+      "_count": "8",
       "_type": "list",
-      "_actuallabel": "टीवी",
-      "_count": "3",
-      "_sec_id": "65685377"
+      "row": "5",
+      "col": "4"
     },
     {
-      "_type": "liveblog",
-      "label": "Breaking News: देश-विदेश की बड़ी खबरें",
-      "weblink": "https://navbharattimes.indiatimes.com/breaking-news-in-hindi/liveblog/58166012.cms",
-      "_sec_id": "58166012",
-      "row": "7",
+      "label": "astro",
+      "weblink": "",
+      "_sec_id": "61035114",
+      "_count": "6",
+      "_type": "list",
+      "_rlvideoid": "70784937",
+      "_actuallabel": "ജ്യോതിഷം",
+      "row": "8",
+      "col": "8",
+      "component": {
+        "desktop": "orgAstro"
+      }
+    },
+    {
+      "label": "Astrology Banner",
+      "weblink": "",
+      "_type": "banner"
+    },
+    {
+      "label": "btf",
+      "_type": "ad",
+      "adtype": "dfp",
+      "mstype": "btf",
+      "_platform": "desktop",
+      "row": "12"
+    },
+    {
+      "label": "education",
+      "weblink": "",
+      "_sec_id": "47337849",
+      "_count": "5",
+      "_type": "list",
+      "row": "5",
       "col": "4",
       "widgetConfig": {
         "ad": {
@@ -412,27 +205,47 @@
       }
     },
     {
-      "label": "btf",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "btf",
-      "_platform": "desktop",
-      "row": "16"
+      "label": "crime",
+      "weblink": "",
+      "_sec_id": "67939431",
+      "_count": "7",
+      "_type": "list",
+      "row": "10",
+      "col": "4"
     },
     {
-      "label": "mrec7",
-      "_type": "ad",
-      "adtype": "dfp",
-      "mstype": "mrec7",
-      "_platform": "desktop",
-      "row": "15",
-      "col": "4",
-      "widgetConfig": {
-        "ad": {
-          "adtype": "dfp",
-          "mstype": "mrec8"
-        }
-      }
+      "label": "Weather",
+      "weblink": "",
+      "_type": "weather"
+    },
+    {
+      "label": "Service Drawer",
+      "weblink": "",
+      "_type": "servicedrawer"
+    },
+    {
+      "label": "jobs",
+      "weblink": "",
+      "_sec_id": "70783915",
+      "_type": "list",
+      "row": "11",
+      "col": "4"
+    },
+    {
+      "label": "religion",
+      "weblink": "",
+      "_sec_id": "70784946",
+      "_type": "list",
+      "row": "11",
+      "col": "4"
+    },
+    {
+      "label": "video",
+      "weblink": "",
+      "_sec_id": "47329248",
+      "_nav_id": "47329248",
+      "_type": "video",
+      "row": "13"
     }
   ]
 }

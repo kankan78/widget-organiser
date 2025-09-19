@@ -1,8 +1,36 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Widget Organizer
+
+A responsive e-commerce widget organizer with Firebase integration for product management and affiliate marketing.
+
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+1. Node.js 18+ installed
+2. Firebase project set up
+3. Environment variables configured
+
+### Environment Setup
+
+1. Copy the environment template:
+```bash
+cp .env.example .env.local
+```
+
+2. Fill in your Firebase credentials in `.env.local`:
+   - Get these from Firebase Console > Project Settings > General > Your apps
+   - The `.env.local` file is already in `.gitignore` for security
+
+### Installation
+
+First, install dependencies:
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
