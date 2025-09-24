@@ -373,13 +373,13 @@ const ProductListPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-gray-900">ShopSmart</h1>
+              <h1 className="text-4xl font-bold text-white">ShopSmart</h1>
               <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
-                Amazon Affiliate Store
+                <Link href={"/affilliate/smart-image"}>Shop By Image</Link>
               </span>
             </div>
             {/* <nav className="hidden md:flex space-x-6 text-sm">
@@ -441,7 +441,7 @@ const ProductListPage = () => {
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <h3 className="text-lg font-semibold mb-4">ShopSmart</h3>
               <p className="text-gray-300 text-sm">

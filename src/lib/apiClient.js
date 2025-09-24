@@ -81,12 +81,12 @@ export const productsAPI = {
   },
 
   // Search products
-  async search(searchTerm, limit = 20) {
+  async search(searchTerm, limit = 50) {
     return apiRequest(`/products?search=${encodeURIComponent(searchTerm)}&limit=${limit}`);
   },
 
   // Get products by category
-  async getByCategory(category, limit = 20) {
+  async getByCategory(category, limit = 50) {
     return apiRequest(`/products?category=${encodeURIComponent(category)}&limit=${limit}`);
   }
 };

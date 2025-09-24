@@ -1,0 +1,24 @@
+# Core web framework
+fastapi>=0.110
+uvicorn[standard]>=0.23
+
+# Data validation
+pydantic>=2.3
+
+# HTTP client and timeouts
+httpx>=0.24
+
+# Environment variables
+python-dotenv>=1.0
+
+# Amazon Product Advertising API SDK (provides amazon_paapi)
+python-amazon-paapi>=5.0
+
+# AI agent framework used via `phi.*` imports
+phidata>=2.4
+
+# Optional: If using Google Gemini via phi (currently commented out)
+# google-generativeai>=0.7
+
+# Optional: If using Groq SDK directly (phi handles via API; usually not needed)
+# groq>=0.9

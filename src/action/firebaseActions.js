@@ -107,7 +107,7 @@ export const productActions = {
         where('title', '>=', searchTerm),
         where('title', '<=', searchTerm + '\uf8ff'),
         orderBy('title'),
-        limit(20)
+        limit(50)
       );
       
       const snapshot = await getDocs(q);
@@ -129,7 +129,7 @@ export const productActions = {
         productsRef,
         where('category', '==', category),
         orderBy('createdAt', 'desc'),
-        limit(20)
+        limit(50)
       );
       
       const snapshot = await getDocs(q);
