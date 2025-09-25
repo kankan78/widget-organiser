@@ -232,7 +232,7 @@ const FilterBar = ({ categories, selectedCategory, onCategoryChange, sortBy, onS
         <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-blue-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="default">Sort By</option>
           <option value="price-low">Price: Low to High</option>
@@ -295,7 +295,11 @@ const ProductListPage = () => {
   }, []);
 
   // Get unique categories
-  const categories = [...new Set(products.map(product => product.category))];
+  const categoryCounts = products.reduce((acc, product) => {
+    acc[product.category] = (acc[product.category] || 0) + 1;
+    return acc;
+  }, {});
+  const categories = Object.keys(categoryCounts).filter(category => categoryCounts[category] > 1);
 
   // Filter and Sort Products
   useEffect(() => {
@@ -306,39 +310,42 @@ const ProductListPage = () => {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
-    // Sort products
-    switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => parseFloat(a.price.replace(/[₹,]/g, '')) - parseFloat(b.price.replace(/[₹,]/g, '')));
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => parseFloat(b.price.replace(/[₹,]/g, '')) - parseFloat(a.price.replace(/[₹,]/g, '')));
-        break;
-      case 'rating':
-        filtered.sort((a, b) => parseFloat(b.reviews.split(' ')[0]) - parseFloat(a.reviews.split(' ')[0]));
-        break;
-      case 'discount':
-        filtered.sort((a, b) => {
-          const discountA = parseFloat(a.discount?.replace(/[%OFF ]/g, '') || '0');
-          const discountB = parseFloat(b.discount?.replace(/[%OFF ]/g, '') || '0');
-          return discountB - discountA;
-        });
-        break;
-      case 'time':
-        filtered.sort((a, b) => {
-          // Convert time strings to Date objects or timestamps for reliable comparison.
-          // If 'time' is not present, treat it as a very old date (timestamp 0)
-          // to ensure products without a time are placed at the end in a descending sort.
-          const timeA = a.time ? new Date(a.time).getTime() : 0;
-          const timeB = b.time ? new Date(b.time).getTime() : 0;
-          
-          // Sort in descending order (newest first)
-          return timeB - timeA;
-        });
-        break;
-      default:
-        break;
-    }
+    try {
+      // Sort products
+      switch (sortBy) {
+        case 'price-low':
+          filtered.sort((a, b) => parseFloat(a.price?.toString().replace(/[₹,]/g, '')) - parseFloat(b.price?.toString().replace(/[₹,]/g, '')));
+          break;
+        case 'price-high':
+          filtered.sort((a, b) => parseFloat(b.price?.toString().replace(/[₹,]/g, '')) - parseFloat(a.price?.toString().replace(/[₹,]/g, '')));
+          break;
+        case 'rating':
+          filtered.sort((a, b) => parseFloat(b.reviews?.toString().split(' ')[0]) - parseFloat(a.reviews?.toString().split(' ')[0]));
+          break;
+        case 'discount':
+          filtered.sort((a, b) => {
+
+            const discountA = parseFloat(a.discount?.toString().replace(/[%OFF ]/g, '') || '0');
+            const discountB = parseFloat(b.discount?.toString().replace(/[%OFF ]/g, '') || '0');
+            return discountB - discountA;
+          });
+          break;
+        case 'time':
+          filtered.sort((a, b) => {
+            // Convert time strings to Date objects or timestamps for reliable comparison.
+            // If 'time' is not present, treat it as a very old date (timestamp 0)
+            // to ensure products without a time are placed at the end in a descending sort.
+            const timeA = a.time ? new Date(a.time).getTime() : 0;
+            const timeB = b.time ? new Date(b.time).getTime() : 0;
+            
+            // Sort in descending order (newest first)
+            return timeB - timeA;
+          });
+          break;
+        default:
+          break;
+      }
+    } catch(e){}
 
     setFilteredProducts(filtered);
   }, [products, selectedCategory, sortBy]);
@@ -388,26 +395,26 @@ const ProductListPage = () => {
               <a href="#" className="text-gray-600 hover:text-gray-900">टॉप डील्स</a>
               <a href="#" className="text-gray-600 hover:text-gray-900">मोबाइल</a>
             </nav> */}
+            {/* Page Header */}
+            <div className="flex items-center space-x-4">
+              <h2 className="text-3xl font-bold text-white-900 mb-2">Best Deal Products</h2>
+              {/* <div className="text-white-600">Discover amazing deals on top-quality products</div> */}
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Best Deal Products</h2>
-          <p className="text-gray-600">Discover amazing deals on top-quality products</p>
-        </div>
 
         {/* Filter Bar */}
-        {/* <FilterBar 
+        <FilterBar 
           categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
           sortBy={sortBy}
           onSortChange={setSortBy}
-        /> */}
+        />
 
         {/* Products Count */}
         <div className="mb-6">
