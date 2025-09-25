@@ -108,10 +108,10 @@ const ImageDetector = () => {
       //   ]
       // };
 
-      setOriginalImageSize({ 
-        h: parseInt(mockResponse.size.h), 
-        w: parseInt(mockResponse.size.w) 
-      });
+      // setOriginalImageSize({ 
+      //   h: parseInt(mockResponse.size.h), 
+      //   w: parseInt(mockResponse.size.w) 
+      // });
       
       // Calculate display size (max width 500px, maintain aspect ratio)
       const maxWidth = 500;
@@ -244,7 +244,7 @@ const ImageDetector = () => {
                   alt="Analyzed fashion"
                   className="rounded-lg shadow-lg"
                   style={{
-                    width: `${originalImageSize.w}px`,
+                    width: `100%`,
                     height: `${originalImageSize.h}px`,
                     objectFit: 'cover'
                   }}
@@ -300,19 +300,23 @@ const ImageDetector = () => {
                   {/* Item Details */}
                   <div className="mb-6">
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div>
+                      {/* <div>
                         <span className="text-sm text-gray-500">Gender:</span>
                         <p className="font-semibold text-gray-700 mt-1">{selectedItem.gender}</p>
-                      </div>
+                      </div> */}
                       <div>
                         <span className="text-sm text-gray-500">Color:</span>
                         <p className="font-semibold text-gray-700 mt-1">{selectedItem.color}</p>
                       </div>
+                      <div>
+                        <span className="text-sm text-gray-500">Description:</span>
+                        <p className="font-semibold text-gray-700 mt-1">{selectedItem.description}</p>
+                      </div>
                     </div>
-                    <div>
+                    {/* <div>
                       <span className="text-sm text-gray-500">Description:</span>
                       <p className="font-semibold text-gray-700 mt-1">{selectedItem.description}</p>
-                    </div>
+                    </div> */}
                   </div>
                   {/* Shopping Links */}
                   <div>
@@ -323,15 +327,14 @@ const ImageDetector = () => {
                     <div className="grid gap-4">
                       {selectedItem.shopping_links.map((link, index) => (
                         <div key={index} className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                          <img
-                            src={link.image}
-                            alt="Product"
-                            className="w-20 h-20 object-cover rounded-lg"
-                          />
+                          <div className="p-1 bg-gray-50">
+                            <iframe src={`https://affiliatewidgets.indiatimes.com/affiliates_content_iframe_v2.cms?jarvis_client=languages&website=languages&type=widget_slots&pagename=articleshow&affiliatename=amazon&v2=yes&lang=hi_IN&uid=123&platform=web&productid=${link.asin}&pagename=articleshow&tag=nbt_abcard3_js-21`} key={`sp-${index}`}  width="100%" height="110" style={{ border: '0', overflow: 'hidden' }} loading="lazy" referrerPolicy="no-referrer-when-downgrade">
+                            </iframe>
+                          </div>
                           <div className="flex-1">
-                            <p className="text-sm text-gray-600 mb-3">ASIN: {link.asin}</p>
+                            {/* <p className="text-sm text-gray-600 mb-3">ASIN: {link.asin}</p> */}
                             <div className="flex gap-2 flex-wrap">
-                              <a
+                              {/* <a
                                 href={link.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -339,7 +342,7 @@ const ImageDetector = () => {
                               >
                                 View on Amazon
                                 <ExternalLink className="w-4 h-4" />
-                              </a>
+                              </a> */}
                               <a
                                 href={generateTelegramShareLink(link.url, selectedItem.type, selectedItem.description)}
                                 target="_blank"
