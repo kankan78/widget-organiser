@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { productActions, handleFirebaseError } from '../../../../action';
+import { productActions, handleFirebaseError } from '@/action';
 
 // GET /api/products/[id] - Get product by ID
 export async function GET(request, { params }) {

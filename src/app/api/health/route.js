@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '../../../action';
+// import { db } from '@/action';
 
 // GET /api/health - Health check endpoint
 export async function GET() {
