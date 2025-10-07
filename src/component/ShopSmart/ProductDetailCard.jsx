@@ -8,7 +8,11 @@ export const ProductDetailCard = ({ product, onClose, showModal = false }) => {
   const [showSpecs, setShowSpecs] = useState(false);
   let { similarProducts = "" } = product || {};
 
-  similarProducts = similarProducts && JSON.parse(similarProducts);
+  try {
+    similarProducts = similarProducts && JSON.parse(similarProducts);
+  } catch (error) {
+    console.error('Error parsing similarProducts:', error);
+  }
 
   const renderStars = (rating) => {
     const stars = [];
@@ -36,7 +40,7 @@ export const ProductDetailCard = ({ product, onClose, showModal = false }) => {
         </button>
       </div>}
       <div className="flex flex-col lg:flex-row overflow-y-auto h-full">
-        <div className="relative bg-gray-50 p-4 sm:p-6 lg:w-1/2">
+        <div className="relative bg-gray-50 p-2 lg:w-1/3">
           {typeof product.discount === "string" && (
             <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10">
               {product.discount}
@@ -53,9 +57,9 @@ export const ProductDetailCard = ({ product, onClose, showModal = false }) => {
             {product.iframe && <div className="p-2 bg-gray-50">
               {product.iframe.includes('<iframe') ? <div dangerouslySetInnerHTML={{ __html: product.iframe }} /> : <iframe src={product.iframe} width="100%" height="160" style={{ border: '0', overflow: 'hidden' }} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>}</div>
             }
-            {Array.isArray(similarProducts) &&
+            {Array.isArray(similarProducts) && similarProducts.length > 0 &&
               <div>
-                Similar Products
+                Related Products
                 {similarProducts.map((sp, i) => (
                   <iframe key={`sp-${i}`} src={sp} width="100%" height="160" style={{ border: '0', overflow: 'hidden' }} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 ))}
@@ -63,7 +67,7 @@ export const ProductDetailCard = ({ product, onClose, showModal = false }) => {
             }
           </div>
         </div>
-        <div className="p-4 sm:p-6 lg:w-1/2 lg:border-l lg:border-gray-100">
+        <div className="p-2 lg:w-2/3 lg:border-l lg:border-gray-100">
           <div className="mb-4">
             <h2 className="text-lg sm:text-xl lg:text-1xl font-bold text-gray-800 mb-3 leading-tight">
               {product.title}
@@ -115,6 +119,15 @@ export const ProductDetailCard = ({ product, onClose, showModal = false }) => {
               {product.hindiDescription}
             </p>
           </div>
+          {
+            product.customerSay && (<div className="mb-8 p-4 sm:p-6 bg-orange-50 rounded-lg border border-orange-200">
+              <h3 className="font-bold text-gray-800 mb-3 text-base sm:text-lg">Customer Say</h3>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {product.customerSay}
+              </p>
+            </div>)
+          }
+          
         </div>
       </div>
     </div>

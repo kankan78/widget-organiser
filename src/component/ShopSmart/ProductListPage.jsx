@@ -227,7 +227,7 @@ const ProductListPage = () => {
         <div className="absolute inset-0 bg-black bg-opacity-50" style={{opacity: '0.8'}} onClick={handleCloseSidebar} />
 
         {/* Sidebar */}
-        <div className={`absolute top-0 right-0 h-full w-full lg:w-1/2 xl:w-2/5 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out translate-x-0 overflow-y-auto`}>
+        <div className={`absolute top-0 right-0 h-full w-full lg:w-1/2 xl:w-2/3 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out translate-x-0 overflow-y-auto`}>
           {selectedProduct && (
             <ProductDetailCard 
               product={selectedProduct} 

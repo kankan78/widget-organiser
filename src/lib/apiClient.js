@@ -1,5 +1,4 @@
 // API client utilities for making requests to our Next.js API routes
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 // Generic API request function
@@ -49,7 +48,7 @@ export const productsAPI = {
     const queryString = searchParams.toString();
     const endpoint = queryString ? `/products?${queryString}` : '/products';
     
-    return apiRequest(endpoint);
+    return apiRequest(endpoint, {next: { revalidate: 60 }});
   },
 
   // Get product by ID
