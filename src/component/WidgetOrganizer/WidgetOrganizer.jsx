@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useMemo, useRef, useState } from 'react';
-import { GripVertical, RefreshCw, Plus, Upload } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronDown, ChevronUp, GripVertical, RefreshCw, Plus, Upload } from 'lucide-react';
 import { copyToClipboard } from '../../lib/utils';
 
 const DEFAULT_WIDGETS = [
@@ -368,7 +368,7 @@ const WidgetCard = ({
       ${getWidgetTypeColor(widget._type)}
     `.trim() + ' relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200 hover:shadow-md hover:scale-[1.02]'}
     onClick={() => onClick(widget)}
-    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
+    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nColumn: ${widget.column}\nCol: ${widget.col}`}
   >
     <div className="flex items-start justify-between">
       <div className="flex-1">
@@ -400,9 +400,24 @@ const WidgetsGrid = ({
       .filter(row => parseInt(row) < 50)
       .sort((a, b) => parseInt(a) - parseInt(b))
       .map((row) => (
-        <div key={row} className="bg-gray-100 p-2 sm:p-2 rounded-lg">
+        <div key={row} className="bg-gray-100 p-1 sm:p-1 rounded-lg">
           <h6 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h6>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            {/* Placeholder Headline WidgetCard on first row */}
+            {parseInt(row) === 0 && (
+              <div className="grid grid-cols-8">
+                <div className="col-span-8">
+                  <div
+                    className="relative p-1 sm:p-1 rounded-lg border-2 bg-blue-100 text-blue-700 flex items-center justify-center min-h-[36px] text-lg font-semibold opacity-75"
+                    style={{ pointerEvents: 'none', userSelect: 'none' }}
+                    tabIndex={-1}
+                    aria-disabled="true"
+                  >
+                    Headline
+                  </div>
+                </div>
+              </div>
+            )}
             {groupedWidgets[row].map((widget) => (
               <WidgetCard
                 key={widget.originalIndex + widget.label}
@@ -485,16 +500,24 @@ const diffLines = (fromText, toText) => {
 
   const fromResult = [];
   const toResult = [];
+  const steps = [];
+  let fromIndex = 0;
+  let toIndex = 0;
   let i = 0;
   let j = 0;
   while (i < m && j < n) {
     if (fromLines[i] === toLines[j]) {
       fromResult.push({ text: fromLines[i], type: 'same' });
       toResult.push({ text: toLines[j], type: 'same' });
+      steps.push({ fromIndex, toIndex, type: 'same' });
+      fromIndex += 1;
+      toIndex += 1;
       i += 1;
       j += 1;
     } else if (dp[i + 1][j] >= dp[i][j + 1]) {
       fromResult.push({ text: fromLines[i], type: 'removed' });
+      steps.push({ fromIndex, toIndex: null, type: 'removed' });
+      fromIndex += 1;
       i += 1;
     } else {
       toResult.push({ text: toLines[j], type: 'added' });
@@ -503,28 +526,31 @@ const diffLines = (fromText, toText) => {
   }
   while (i < m) {
     fromResult.push({ text: fromLines[i], type: 'removed' });
+    steps.push({ fromIndex, toIndex: null, type: 'removed' });
+    fromIndex += 1;
     i += 1;
   }
   while (j < n) {
     toResult.push({ text: toLines[j], type: 'added' });
+    steps.push({ fromIndex: null, toIndex, type: 'added' });
+    toIndex += 1;
     j += 1;
   }
 
-  return { fromResult, toResult };
+  return { fromResult, toResult, steps };
 };
 
-const DiffCodeBlock = ({ lines }) => (
+const DiffCodeBlock = ({ lines, activeIndex }) => (
   <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
     {lines.map((line, idx) => (
       <div
         key={`${idx}-${line.type}`}
-        className={
-          line.type === 'added'
-            ? 'bg-green-900/40 text-green-200'
-            : line.type === 'removed'
-              ? 'bg-red-900/40 text-red-200'
-              : ''
-        }
+        data-line-index={idx}
+        className={`${line.type === 'added'
+          ? 'bg-green-900/40 text-green-200'
+          : line.type === 'removed'
+            ? 'bg-red-900/40 text-red-200'
+            : ''} ${idx === activeIndex ? 'ring-2 ring-yellow-400' : ''}`}
       >
         {line.text}
       </div>
@@ -533,11 +559,23 @@ const DiffCodeBlock = ({ lines }) => (
 );
 
 const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent }) => {
-  if (!isOpen) return null;
-  const { fromResult, toResult } = diffLines(initialJson, currentJson);
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const syncingRef = useRef(false);
+  const copyTimeoutRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+  const [diffIndex, setDiffIndex] = useState(0);
+
+  const { fromResult, toResult, steps } = useMemo(
+    () => diffLines(initialJson || '', currentJson || ''),
+    [initialJson, currentJson]
+  );
+  const diffSteps = useMemo(
+    () => steps.filter((step) => step.type !== 'same'),
+    [steps]
+  );
+  const hasDiffs = diffSteps.length > 0;
+  const activeStep = hasDiffs ? diffSteps[diffIndex] : null;
 
   const syncScroll = (targetRef) => (e) => {
     if (syncingRef.current) return;
@@ -550,11 +588,99 @@ const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent
     });
   };
 
+  const scrollToLine = (containerRef, lineIndex) => {
+    if (lineIndex === null || lineIndex === undefined) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const lineEl = container.querySelector(`[data-line-index="${lineIndex}"]`);
+    if (lineEl) {
+      lineEl.scrollIntoView({ block: 'center' });
+    }
+  };
+
+  const goToPrevDiff = () => {
+    if (!hasDiffs) return;
+    setDiffIndex((prev) => (prev - 1 + diffSteps.length) % diffSteps.length);
+  };
+
+  const goToNextDiff = () => {
+    if (!hasDiffs) return;
+    setDiffIndex((prev) => (prev + 1) % diffSteps.length);
+  };
+
+  const handleCopy = async () => {
+    if (!onCopyCurrent) return;
+    const didCopy = await onCopyCurrent();
+    if (didCopy) {
+      setCopied(true);
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+      copyTimeoutRef.current = setTimeout(() => {
+        setCopied(false);
+      }, 1600);
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setDiffIndex(0);
+    setCopied(false);
+  }, [isOpen, initialJson, currentJson]);
+
+  useEffect(() => {
+    if (!isOpen || !activeStep) return;
+    scrollToLine(leftRef, activeStep.fromIndex);
+    scrollToLine(rightRef, activeStep.toIndex);
+  }, [activeStep, isOpen]);
+
+  useEffect(
+    () => () => {
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+    },
+    []
+  );
+
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 bg-zinc-800/90 z-50 flex justify-center items-center">
       <div className="w-full max-w-5xl h-[85vh] bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="flex justify-between items-center p-4 border-b">
-          <h3 className="text-lg font-semibold text-gray-800">Compare JSON</h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-lg font-semibold text-gray-800">Compare JSON</h3>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <button
+                type="button"
+                onClick={goToPrevDiff}
+                disabled={!hasDiffs}
+                className={`p-1 rounded border ${hasDiffs ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}
+                title="Previous difference"
+              >
+                <ChevronUp className="w-4 h-4" />
+              </button>
+              <span className="px-2">
+                {hasDiffs ? `${diffIndex + 1}/${diffSteps.length}` : '0/0'}
+              </span>
+              <button
+                type="button"
+                onClick={goToNextDiff}
+                disabled={!hasDiffs}
+                className={`p-1 rounded border ${hasDiffs ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}
+                title="Next difference"
+              >
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+            <button
+                onClick={handleCopy}
+                className={`text-xs px-2 py-1 rounded text-white transition-colors ${copied ? 'bg-emerald-500 shadow-inner' : 'bg-blue-500 hover:bg-blue-600'}`}
+              >
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+          </div>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -568,7 +694,7 @@ const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent
             className="border-r p-4 overflow-auto"
           >
             <h4 className="text-sm font-semibold text-gray-600 mb-2">Previous JSON</h4>
-            <DiffCodeBlock lines={fromResult} />
+            <DiffCodeBlock lines={fromResult} activeIndex={activeStep?.fromIndex ?? null} />
           </div>
           <div
             ref={rightRef}
@@ -577,14 +703,9 @@ const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent
           >
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-sm font-semibold text-gray-600">New JSON</h4>
-              <button
-                onClick={onCopyCurrent}
-                className="text-xs px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-              >
-                Copy
-              </button>
+              
             </div>
-            <DiffCodeBlock lines={toResult} />
+            <DiffCodeBlock lines={toResult} activeIndex={activeStep?.toIndex ?? null} />
           </div>
         </div>
       </div>
@@ -669,7 +790,19 @@ const EditWidgetModal = ({ selectedWidget, onClose, onSave, onChange }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Column</label>
+            <label className="block text-sm font-medium">Column (0-3)</label>
+            <input
+              type="number"
+              min="0"
+              max="3"
+              step="1"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.column || ''}
+              onChange={(e) => onChange({ ...selectedWidget, column: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Col (Span)</label>
             <input
               type="text"
               className="w-full border p-2 rounded"
@@ -823,6 +956,9 @@ const WidgetOrganizer = () => {
     const updatedWidgets = newWidgets.map((widget, index) => ({
       ...widget,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
 
@@ -840,6 +976,9 @@ const WidgetOrganizer = () => {
         delete cleaned.rowMobile;
         if (cleaned.col === null || cleaned.col === undefined) {
           delete cleaned.col;
+        }
+        if (cleaned.column === null || cleaned.column === undefined) {
+          delete cleaned.column;
         }
         if (cleaned.row === null || cleaned.row === undefined) {
           delete cleaned.row;
@@ -865,6 +1004,9 @@ const WidgetOrganizer = () => {
       ...widget,
       rowMobile: index,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
     setWidgets(resetWidgets);
@@ -933,21 +1075,29 @@ const WidgetOrganizer = () => {
     }
   };
 
-  const groupedWidgets = useMemo(() => (
-    widgets.reduce((acc, widget, index) => {
-      let newrow = widget.row;
-      if (widget.col) {
-        newrow = newrow + ".10";
-      } else if (newrow) {
-        newrow = newrow + "." + index;
-      } else {
-        newrow = "99";
-      }
-      if (!acc[newrow]) acc[newrow] = [];
-      acc[newrow].push({ ...widget, originalIndex: index });
+  const groupedWidgets = useMemo(() => {
+    const grouped = widgets.reduce((acc, widget, index) => {
+      const rowKey = widget.row ? String(parseInt(widget.row)) : '99';
+      if (!acc[rowKey]) acc[rowKey] = [];
+      acc[rowKey].push({ ...widget, originalIndex: index });
       return acc;
-    }, {})
-  ), [widgets]);
+    }, {});
+
+    Object.keys(grouped).forEach((rowKey) => {
+      grouped[rowKey].sort((a, b) => {
+        const columnA = a.column !== undefined && a.column !== null && a.column !== ''
+          ? parseInt(a.column)
+          : Number.POSITIVE_INFINITY;
+        const columnB = b.column !== undefined && b.column !== null && b.column !== ''
+          ? parseInt(b.column)
+          : Number.POSITIVE_INFINITY;
+        if (columnA !== columnB) return columnA - columnB;
+        return a.originalIndex - b.originalIndex;
+      });
+    });
+
+    return grouped;
+  }, [widgets]);
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
