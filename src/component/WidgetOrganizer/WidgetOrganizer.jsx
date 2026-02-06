@@ -54,6 +54,7 @@ const DEFAULT_WIDGETS = [
     "_count": "7",
     "row": "10",
     "col": "4",
+    "column": "0",
     "rowMobile": 4
   },
   {
@@ -65,6 +66,7 @@ const DEFAULT_WIDGETS = [
     "_rlvideoid": "66705082",
     "row": "12",
     "col": "8",
+    "column": "0",
     "rowMobile": 5
   },
   {
@@ -95,6 +97,7 @@ const DEFAULT_WIDGETS = [
     "_rlvideoid": "50075616",
     "row": "0",
     "col": "4",
+    "column": "1",
     "rowMobile": 8
   },
   {
@@ -107,6 +110,7 @@ const DEFAULT_WIDGETS = [
     "col": "4",
     "_count": "7",
     "_actuallabel": "Automobile",
+    "column": "2",
     "rowMobile": 9
   },
   {
@@ -137,6 +141,7 @@ const DEFAULT_WIDGETS = [
     "_rlvideoid": "71395281",
     "row": "10",
     "col": "4",
+    "column": "1",
     "rowMobile": 12
   },
   {
@@ -148,6 +153,7 @@ const DEFAULT_WIDGETS = [
     "_rlvideoid": "74062505",
     "row": "8",
     "col": "4",
+    "column": "0",
     "rowMobile": 13
   },
   {
@@ -158,6 +164,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "row": "12",
     "col": "4",
+    "column": "1",
     "rowMobile": 14
   },
   {
@@ -189,6 +196,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "row": "8",
     "col": "4",
+    "column": "2",
     "rowMobile": 18
   },
   {
@@ -199,6 +207,7 @@ const DEFAULT_WIDGETS = [
     "_rlvideoid": "72254514",
     "row": "8",
     "col": "4",
+    "column": "1",
     "rowMobile": 19
   },
   {
@@ -210,6 +219,7 @@ const DEFAULT_WIDGETS = [
     "_actuallabel": "Viral Cross",
     "row": "11",
     "col": "4",
+    "column": "1",
     "rowMobile": 20
   },
   {
@@ -220,6 +230,7 @@ const DEFAULT_WIDGETS = [
     "_type": "photoiframe",
     "row": "11",
     "col": "8",
+    "column": "0",
     "rowMobile": 21
   },
   {
@@ -228,28 +239,14 @@ const DEFAULT_WIDGETS = [
     "_sec_id": "49909262",
     "_nav_id": "49909262",
     "_type": "video",
-    "row": "14",
-    "rowMobile": 22
+    "row": "14"
   }
 ];
 
 const AccordionHeader = ({ isOpen, onToggle, actions }) => (
   <div className="w-full p-2 sm:p-3 rounded-lg mb-3 bg-gray-50 border border-gray-200">
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-      <button
-        onClick={onToggle}
-        className="flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg px-2 py-1 sm:px-2 w-full sm:w-auto"
-      >
-        <h1 className="text-lg sm:text-xl font-semibold text-gray-800">Widget Layout Organizer</h1>
-        <svg
-          className={`w-6 h-6 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="#aaa"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+      <h1 className="text-lg sm:text-xl font-semibold text-gray-800">Widget Layout Organizer</h1>
       {actions}
     </div>
   </div>
@@ -281,8 +278,10 @@ const UrlImporter = ({
   error,
   onChange,
   onFetch,
+  platform,
   env,
   site,
+  onPlatformChange,
   onEnvChange,
   onSiteChange,
   placeholder
@@ -291,6 +290,17 @@ const UrlImporter = ({
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
       <h2 className="text-lg font-semibold mb-3">Import Widgets from URL</h2>
       <div className="flex flex-col sm:flex-row gap-4 mb-3">
+      <div className="flex-1">
+        <select
+          name="platform"
+          value={platform}
+          onChange={(e) => onPlatformChange(e.target.value)}
+          className="w-30 px-2 py-1 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="desktop">desktop</option>
+          <option value="mobile">mobile</option>
+        </select>
+      </div>
       <div className="flex-1">
         <select
           name="env"
@@ -368,7 +378,7 @@ const WidgetCard = ({
       ${getWidgetTypeColor(widget._type)}
     `.trim() + ' relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200 hover:shadow-md hover:scale-[1.02]'}
     onClick={() => onClick(widget)}
-    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
+    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nColumn: ${widget.column}\nCol: ${widget.col}`}
   >
     <div className="flex items-start justify-between">
       <div className="flex-1">
@@ -790,7 +800,19 @@ const EditWidgetModal = ({ selectedWidget, onClose, onSave, onChange }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Column</label>
+            <label className="block text-sm font-medium">Column (0-2)</label>
+            <input
+              type="number"
+              min="0"
+              max="3"
+              step="1"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.column || ''}
+              onChange={(e) => onChange({ ...selectedWidget, column: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Col (Span)</label>
             <input
               type="text"
               className="w-full border p-2 rounded"
@@ -837,6 +859,7 @@ const WidgetOrganizer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [lastSwap, setLastSwap] = useState(null);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
+  const [platform, setPlatform] = useState('desktop');
   const URL_TEMPLATE = 'HOME_PAGE_WIDGETS';
   const URL_IS_LIVE = 'yes';
   const URL_PLACEHOLDER = 'https://tmlfeed.samayam.com/langapi/config?property=nbt&template=HOME_PAGE_WIDGETS&islive=yes';
@@ -861,6 +884,19 @@ const WidgetOrganizer = () => {
       setWidgets(updatedWidgets);
     }
     setIsModalOpen(false);
+  };
+
+  const handlePlatformChange = (value) => {
+    setPlatform(value);
+    if (value === 'mobile') {
+      setWidgets((prev) => (
+        [...prev].sort((a, b) => {
+          const rowA = a.rowMobile !== undefined && a.rowMobile !== null ? parseInt(a.rowMobile) : 9999;
+          const rowB = b.rowMobile !== undefined && b.rowMobile !== null ? parseInt(b.rowMobile) : 9999;
+          return rowA - rowB;
+        })
+      ));
+    }
   };
 
   const getWidgetTypeColor = (type) => {
@@ -906,31 +942,43 @@ const WidgetOrganizer = () => {
 
     // dropWidget.row && (draggedWidget.row = dropWidget.row);
     // dropWidget.col && (draggedWidget.col = dropWidget.col);
-    
-    if(dropWidget.component || draggedWidget.component) {
-      draggedWidget.row = dropWidget.row;
-      dropWidget.row = tempWidget.row;
-    } else if (dropWidget.col || draggedWidget.col) {
-      draggedWidget.label = dropWidget.label;
-      draggedWidget._actuallabel = dropWidget._actuallabel;
-      draggedWidget.weblink = dropWidget.weblink;
-      draggedWidget._type = dropWidget._type;
-      draggedWidget._sec_id = dropWidget._sec_id;
-      draggedWidget.rowMobile = dropWidget.rowMobile;
-      // if(dropWidget.component)draggedWidget.component = dropWidget.component;
 
-      // tempWidget.row && (dropWidget.row = tempWidget.row);
-      // tempWidget.col && (dropWidget.col = tempWidget.col);
-      dropWidget.label = tempWidget.label;
-      dropWidget._actuallabel = tempWidget._actuallabel;
-      dropWidget.weblink = tempWidget.weblink;
-      dropWidget._type = tempWidget._type;
-      dropWidget._sec_id = tempWidget._sec_id;
+    // If the platform is mobile and the rowMobile is not the same, then swap the rowMobile
+    // If the platform is desktop and the row is the same, then swap the column
+    // If the platform is desktop and the component is the same, then swap the row
+    // If the platform is desktop and the col is the same, then swap the label
+    // If the platform is desktop and the sec_id is the same, then swap the type
+    // If the platform is desktop and the actuallabel is the same, then swap the weblink
+    if(platform === 'mobile' && dropWidget.rowMobile !== draggedWidget.rowMobile){
+      draggedWidget.rowMobile = dropWidget.rowMobile;
       dropWidget.rowMobile = tempWidget.rowMobile;
-      // if(tempWidget.component)dropWidget.component = tempWidget.component;
-    } else {
-      draggedWidget.row = dropWidget.row;
-      dropWidget.row = tempWidget.row;
+    } else if(platform === 'desktop'){
+      if(dropWidget.row === draggedWidget.row) {
+        draggedWidget.column = dropWidget.column;
+        dropWidget.column = tempWidget.column;
+      } else if(dropWidget.component || draggedWidget.component) {
+        draggedWidget.row = dropWidget.row;
+        dropWidget.row = tempWidget.row;
+      } else if (dropWidget.col || draggedWidget.col) {
+        draggedWidget.label = dropWidget.label;
+        draggedWidget._actuallabel = dropWidget._actuallabel;
+        draggedWidget.weblink = dropWidget.weblink;
+        draggedWidget._type = dropWidget._type;
+        draggedWidget._sec_id = dropWidget._sec_id;
+        // if(dropWidget.component)draggedWidget.component = dropWidget.component;
+
+        // tempWidget.row && (dropWidget.row = tempWidget.row);
+        // tempWidget.col && (dropWidget.col = tempWidget.col);
+        dropWidget.label = tempWidget.label;
+        dropWidget._actuallabel = tempWidget._actuallabel;
+        dropWidget.weblink = tempWidget.weblink;
+        dropWidget._type = tempWidget._type;
+        dropWidget._sec_id = tempWidget._sec_id;
+        // if(tempWidget.component)dropWidget.component = tempWidget.component;
+      } else {
+        draggedWidget.row = dropWidget.row;
+        dropWidget.row = tempWidget.row;
+      }
     }
 
     // Remove dragged item
@@ -944,6 +992,9 @@ const WidgetOrganizer = () => {
     const updatedWidgets = newWidgets.map((widget, index) => ({
       ...widget,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
 
@@ -958,9 +1009,12 @@ const WidgetOrganizer = () => {
       .sort((a, b) => a.rowMobile - b.rowMobile)
       .map(widget => {
         const cleaned = { ...widget };
-        delete cleaned.rowMobile;
+        // delete cleaned.rowMobile;
         if (cleaned.col === null || cleaned.col === undefined) {
           delete cleaned.col;
+        }
+        if (cleaned.column === null || cleaned.column === undefined) {
+          delete cleaned.column;
         }
         if (cleaned.row === null || cleaned.row === undefined) {
           delete cleaned.row;
@@ -986,6 +1040,9 @@ const WidgetOrganizer = () => {
       ...widget,
       rowMobile: index,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
     setWidgets(resetWidgets);
@@ -1054,21 +1111,53 @@ const WidgetOrganizer = () => {
     }
   };
 
-  const groupedWidgets = useMemo(() => (
-    widgets.reduce((acc, widget, index) => {
-      let newrow = widget.row;
-      if (widget.col) {
-        newrow = newrow + ".10";
-      } else if (newrow) {
-        newrow = newrow + "." + index;
-      } else {
-        newrow = "99";
-      }
-      if (!acc[newrow]) acc[newrow] = [];
-      acc[newrow].push({ ...widget, originalIndex: index });
+  const groupedWidgets = useMemo(() => {
+    if (platform === 'mobile') {
+      const grouped = widgets.filter(widget => widget._platform !== 'desktop').reduce((acc, widget, index) => {
+        const rowKey = widget.rowMobile !== undefined && widget.rowMobile !== null
+          ? String(parseInt(widget.rowMobile))
+          : '99';
+        if (!acc[rowKey]) acc[rowKey] = [];
+        acc[rowKey].push({ ...widget, originalIndex: index });
+        return acc;
+      }, {});
+
+      Object.keys(grouped).forEach((rowKey) => {
+        grouped[rowKey].sort((a, b) => {
+          const rowA = a.rowMobile !== undefined && a.rowMobile !== null ? parseInt(a.rowMobile) : 9999;
+          const rowB = b.rowMobile !== undefined && b.rowMobile !== null ? parseInt(b.rowMobile) : 9999;
+          if (rowA !== rowB) return rowA - rowB;
+          return a.originalIndex - b.originalIndex;
+        });
+      });
+
+      return grouped;
+    }
+
+    const grouped = widgets.reduce((acc, widget, index) => {
+      const rowKey = widget.row ? String(parseInt(widget.row)) : '99';
+      if (!acc[rowKey]) acc[rowKey] = [];
+      acc[rowKey].push({ ...widget, originalIndex: index });
       return acc;
-    }, {})
-  ), [widgets]);
+    }, {});
+
+    // Sort the widgets by column
+    // If column is not set, sort by originalIndex
+    Object.keys(grouped).forEach((rowKey) => {
+      grouped[rowKey].sort((a, b) => {
+        const columnA = a.column !== undefined && a.column !== null && a.column !== ''
+          ? parseInt(a.column)
+          : Number.POSITIVE_INFINITY;
+        const columnB = b.column !== undefined && b.column !== null && b.column !== ''
+          ? parseInt(b.column)
+          : Number.POSITIVE_INFINITY;
+        if (columnA !== columnB) return columnA - columnB;
+        return a.originalIndex - b.originalIndex;
+      });
+    });
+
+    return grouped;
+  }, [platform, widgets]);
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
@@ -1102,8 +1191,10 @@ const WidgetOrganizer = () => {
           error={error}
           onChange={setUrlInput}
           onFetch={handleUrlFetch}
+          platform={platform}
           env={env}
           site={site}
+          onPlatformChange={handlePlatformChange}
           onEnvChange={handleEnvChange}
           onSiteChange={handleSiteChange}
           placeholder={URL_PLACEHOLDER}
