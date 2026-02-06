@@ -13,7 +13,7 @@ const DEFAULT_WIDGETS = [
     "_count": "9",
     "_m_count": "9",
     "row": "3",
-    "rowMobile": 0
+    "rowM": 0
   },
   {
     "label": "movie",
@@ -21,7 +21,7 @@ const DEFAULT_WIDGETS = [
     "weblink": "",
     "row": "1",
     "_sec_id": "10738512",
-    "rowMobile": 1
+    "rowM": 1
   },
   {
     "label": "business",
@@ -30,7 +30,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "_rlvideoid": "50075709",
     "row": "6",
-    "rowMobile": 2
+    "rowM": 2
   },
   {
     "label": "loksabha-elections",
@@ -44,7 +44,7 @@ const DEFAULT_WIDGETS = [
     "override": "https://vijaykarnataka.com/bengaluru/about-bengaluru-citizens-services",
     "_actuallabel": "Bangalore Civil Services",
     "row": "2",
-    "rowMobile": 3
+    "rowM": 3
   },
   {
     "label": "tech",
@@ -55,7 +55,7 @@ const DEFAULT_WIDGETS = [
     "row": "10",
     "col": "4",
     "column": "0",
-    "rowMobile": 4
+    "rowM": 4
   },
   {
     "label": "astro",
@@ -67,7 +67,7 @@ const DEFAULT_WIDGETS = [
     "row": "12",
     "col": "8",
     "column": "0",
-    "rowMobile": 5
+    "rowM": 5
   },
   {
     "label": "city",
@@ -77,7 +77,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "_rlvideoid": "50075603",
     "row": "5",
-    "rowMobile": 6
+    "rowM": 6
   },
   {
     "label": "lifestyle",
@@ -87,7 +87,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "_rlvideoid": "60309735",
     "row": "9",
-    "rowMobile": 7
+    "rowM": 7
   },
   {
     "label": "government_schemes",
@@ -98,7 +98,7 @@ const DEFAULT_WIDGETS = [
     "row": "0",
     "col": "4",
     "column": "1",
-    "rowMobile": 8
+    "rowM": 8
   },
   {
     "label": "auto",
@@ -111,7 +111,7 @@ const DEFAULT_WIDGETS = [
     "_count": "7",
     "_actuallabel": "Automobile",
     "column": "2",
-    "rowMobile": 9
+    "rowM": 9
   },
   {
     "label": "travel",
@@ -121,7 +121,7 @@ const DEFAULT_WIDGETS = [
     "_type": "list",
     "_rlvideoid": "70891491",
     "row": "4",
-    "rowMobile": 10
+    "rowM": 10
   },
   {
     "label": "photo",
@@ -129,7 +129,7 @@ const DEFAULT_WIDGETS = [
     "_type": "photo",
     "_sec_id": "47911469",
     "row": "7",
-    "rowMobile": 11
+    "rowM": 11
   },
   {
     "label": "corona",
@@ -142,7 +142,7 @@ const DEFAULT_WIDGETS = [
     "row": "10",
     "col": "4",
     "column": "1",
-    "rowMobile": 12
+    "rowM": 12
   },
   {
     "label": "education",
@@ -154,7 +154,7 @@ const DEFAULT_WIDGETS = [
     "row": "8",
     "col": "4",
     "column": "0",
-    "rowMobile": 13
+    "rowM": 13
   },
   {
     "label": "crime",
@@ -165,14 +165,14 @@ const DEFAULT_WIDGETS = [
     "row": "12",
     "col": "4",
     "column": "1",
-    "rowMobile": 14
+    "rowM": 14
   },
   {
     "label": "Weather",
     "weblink": "",
     "_type": "weather",
     "row": "20",
-    "rowMobile": 15
+    "rowM": 15
   },
   {
     "label": "Poll",
@@ -181,13 +181,13 @@ const DEFAULT_WIDGETS = [
     "_sec_id": "11181707",
     "row": "13",
     "col": "4",
-    "rowMobile": 16
+    "rowM": 16
   },
   {
     "label": "Service Drawer",
     "weblink": "",
     "_type": "servicedrawer",
-    "rowMobile": 17
+    "rowM": 17
   },
   {
     "label": "jobs",
@@ -197,7 +197,7 @@ const DEFAULT_WIDGETS = [
     "row": "8",
     "col": "4",
     "column": "2",
-    "rowMobile": 18
+    "rowM": 18
   },
   {
     "label": "religion",
@@ -208,7 +208,7 @@ const DEFAULT_WIDGETS = [
     "row": "8",
     "col": "4",
     "column": "1",
-    "rowMobile": 19
+    "rowM": 19
   },
   {
     "label": "viral",
@@ -220,7 +220,7 @@ const DEFAULT_WIDGETS = [
     "row": "11",
     "col": "4",
     "column": "1",
-    "rowMobile": 20
+    "rowM": 20
   },
   {
     "label": "photoiframe",
@@ -231,7 +231,7 @@ const DEFAULT_WIDGETS = [
     "row": "11",
     "col": "8",
     "column": "0",
-    "rowMobile": 21
+    "rowM": 21
   },
   {
     "label": "video",
@@ -324,6 +324,8 @@ const UrlImporter = ({
           <option value="tml">tml</option>
           <option value="tlg">tlg</option>
           <option value="mt">mt</option>
+          <option value="vk">vk</option>
+          <option value="iag">iag</option>
         </select>
       </div>
       </div>
@@ -394,6 +396,8 @@ const WidgetCard = ({
 );
 
 const WidgetsGrid = ({
+  platform,
+  rows,
   groupedWidgets,
   draggedIndex,
   dragOverItem,
@@ -403,18 +407,32 @@ const WidgetsGrid = ({
   onDragOver,
   onDragLeave,
   onDrop,
-  onWidgetClick
+  onWidgetClick,
+  onAddRowAfter,
+  onDropOnRow
 }) => (
   <div className="grid gap-4">
-    {Object.keys(groupedWidgets)
-      .filter(row => parseInt(row) < 50)
-      .sort((a, b) => parseInt(a) - parseInt(b))
-      .map((row) => (
+    {rows.map((row) => {
+      const rowWidgets = groupedWidgets[row] || [];
+      const isRowEmpty = rowWidgets.length === 0;
+      return (
         <div key={row} className="bg-gray-100 p-1 sm:p-1 rounded-lg">
-          <h6 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h6>
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <h6 className="text-xs sm:text-sm font-semibold text-gray-600">Row {parseInt(row)}</h6>
+            <button
+              type="button"
+              onClick={() => onAddRowAfter(row)}
+              className="flex items-center gap-1 rounded-full border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-2.5 py-1 text-xs sm:text-sm font-medium text-blue-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+              title="Add row after"
+            >
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white shadow-sm">
+                <Plus size={12} />
+              </span>
+            </button>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {/* Placeholder Headline WidgetCard on first row */}
-            {parseInt(row) === 0 && (
+            {parseInt(row) === 0 && platform === 'desktop' && (
               <div className="grid grid-cols-8">
                 <div className="col-span-8">
                   <div
@@ -428,7 +446,7 @@ const WidgetsGrid = ({
                 </div>
               </div>
             )}
-            {groupedWidgets[row].map((widget) => (
+            {rowWidgets.map((widget) => (
               <WidgetCard
                 key={widget.originalIndex + widget.label}
                 widget={widget}
@@ -443,10 +461,19 @@ const WidgetsGrid = ({
                 onClick={onWidgetClick}
               />
             ))}
+            {isRowEmpty && (
+              <div
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => onDropOnRow(e, row)}
+                className="col-span-full sm:col-span-2 md:col-span-3 border-2 border-dashed border-gray-300 rounded-lg p-3 text-center text-xs sm:text-sm text-gray-500 bg-white"
+              >
+                Drop widget here
+              </div>
+            )}
           </div>
         </div>
-      ))
-    }
+      );
+    })}
   </div>
 );
 
@@ -684,13 +711,13 @@ const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent
                 <ChevronDown className="w-4 h-4" />
               </button>
             </div>
-            <button
-                onClick={handleCopy}
-                className={`text-xs px-2 py-1 rounded text-white transition-colors ${copied ? 'bg-emerald-500 shadow-inner' : 'bg-blue-500 hover:bg-blue-600'}`}
-              >
-                {copied ? 'Copied' : 'Copy'}
-              </button>
           </div>
+          <button
+              onClick={handleCopy}
+              className={`text-xs px-2 py-1 rounded text-white transition-colors ${copied ? 'bg-emerald-500 shadow-inner' : 'bg-blue-500 hover:bg-blue-600'}`}
+            >
+              {copied ? 'Copied' : 'Copy to Clipboard'}
+            </button>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -860,6 +887,7 @@ const WidgetOrganizer = () => {
   const [lastSwap, setLastSwap] = useState(null);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [platform, setPlatform] = useState('desktop');
+  const [emptyRowsByPlatform, setEmptyRowsByPlatform] = useState({ desktop: [], mobile: [] });
   const URL_TEMPLATE = 'HOME_PAGE_WIDGETS';
   const URL_IS_LIVE = 'yes';
   const URL_PLACEHOLDER = 'https://tmlfeed.samayam.com/langapi/config?property=nbt&template=HOME_PAGE_WIDGETS&islive=yes';
@@ -891,8 +919,8 @@ const WidgetOrganizer = () => {
     if (value === 'mobile') {
       setWidgets((prev) => (
         [...prev].sort((a, b) => {
-          const rowA = a.rowMobile !== undefined && a.rowMobile !== null ? parseInt(a.rowMobile) : 9999;
-          const rowB = b.rowMobile !== undefined && b.rowMobile !== null ? parseInt(b.rowMobile) : 9999;
+          const rowA = a.rowM !== undefined && a.rowM !== null ? parseInt(a.rowM) : 9999;
+          const rowB = b.rowM !== undefined && b.rowM !== null ? parseInt(b.rowM) : 9999;
           return rowA - rowB;
         })
       ));
@@ -927,6 +955,15 @@ const WidgetOrganizer = () => {
     setDragOverItem(null);
   };
 
+  const normalizeWidgets = (list) => list.map((widget) => ({
+    ...widget,
+    row: widget.row ? String(parseInt(widget.row)) : null,
+    column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+      ? String(parseInt(widget.column))
+      : null,
+    col: widget.col ? String(parseInt(widget.col)) : null
+  }));
+
   const handleDrop = (e, dropIndex, targetRow) => {
     e.preventDefault();
     if (draggedIndex === null || draggedIndex === dropIndex) {
@@ -943,15 +980,15 @@ const WidgetOrganizer = () => {
     // dropWidget.row && (draggedWidget.row = dropWidget.row);
     // dropWidget.col && (draggedWidget.col = dropWidget.col);
 
-    // If the platform is mobile and the rowMobile is not the same, then swap the rowMobile
+    // If the platform is mobile and the rowM is not the same, then swap the rowM
     // If the platform is desktop and the row is the same, then swap the column
     // If the platform is desktop and the component is the same, then swap the row
     // If the platform is desktop and the col is the same, then swap the label
     // If the platform is desktop and the sec_id is the same, then swap the type
     // If the platform is desktop and the actuallabel is the same, then swap the weblink
-    if(platform === 'mobile' && dropWidget.rowMobile !== draggedWidget.rowMobile){
-      draggedWidget.rowMobile = dropWidget.rowMobile;
-      dropWidget.rowMobile = tempWidget.rowMobile;
+    if(platform === 'mobile' && dropWidget.rowM !== draggedWidget.rowM){
+      draggedWidget.rowM = dropWidget.rowM;
+      dropWidget.rowM = tempWidget.rowM;
     } else if(platform === 'desktop'){
       if(dropWidget.row === draggedWidget.row) {
         draggedWidget.column = dropWidget.column;
@@ -989,14 +1026,7 @@ const WidgetOrganizer = () => {
     // newWidgets.splice(insertIndex, 0, draggedWidget);
 
     // Update row and col positions
-    const updatedWidgets = newWidgets.map((widget, index) => ({
-      ...widget,
-      row: widget.row ? String(parseInt(widget.row)) : null,
-      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
-        ? String(parseInt(widget.column))
-        : null,
-      col: widget.col ? String(parseInt(widget.col)) : null
-    }));
+    const updatedWidgets = normalizeWidgets(newWidgets);
 
     setWidgets(updatedWidgets);
     setLastSwap([draggedIndex, dropIndex]);
@@ -1004,12 +1034,82 @@ const WidgetOrganizer = () => {
     setDragOverItem(null);
   };
 
+  const handleDropOnRow = (e, targetRow) => {
+    e.preventDefault();
+    if (draggedIndex === null) return;
+    const rowNumber = parseInt(targetRow);
+    if (Number.isNaN(rowNumber)) return;
+
+    setWidgets((prev) => {
+      const next = [...prev];
+      const draggedWidget = { ...next[draggedIndex] };
+      if (platform === 'mobile') {
+        draggedWidget.rowM = rowNumber;
+      } else {
+        draggedWidget.row = String(rowNumber);
+      }
+      next[draggedIndex] = draggedWidget;
+      return normalizeWidgets(next);
+    });
+
+    setEmptyRowsByPlatform((prev) => {
+      const next = { ...prev };
+      const updated = new Set(next[platform]);
+      updated.delete(rowNumber);
+      next[platform] = Array.from(updated).sort((a, b) => a - b);
+      return next;
+    });
+
+    setLastSwap(null);
+    setDraggedIndex(null);
+    setDragOverItem(null);
+  };
+
+  const handleAddRowAfter = (rowValue) => {
+    const rowNumber = parseInt(rowValue);
+    if (Number.isNaN(rowNumber)) return;
+
+    setWidgets((prev) => prev.map((widget) => {
+      if (platform === 'mobile') {
+        const currentRow = widget.rowM !== undefined && widget.rowM !== null
+          ? parseInt(widget.rowM)
+          : null;
+        if (currentRow !== null && currentRow > rowNumber) {
+          return { ...widget, rowM: currentRow + 1 };
+        }
+        return widget;
+      }
+
+      const currentRow = widget.row ? parseInt(widget.row) : null;
+      if (currentRow !== null && currentRow > rowNumber) {
+        return { ...widget, row: String(currentRow + 1) };
+      }
+      return widget;
+    }));
+
+    setEmptyRowsByPlatform((prev) => {
+      const next = { ...prev };
+      const updated = new Set();
+      prev[platform].forEach((value) => {
+        const existingRow = parseInt(value);
+        if (existingRow > rowNumber) {
+          updated.add(existingRow + 1);
+        } else {
+          updated.add(existingRow);
+        }
+      });
+      updated.add(rowNumber + 1);
+      next[platform] = Array.from(updated).sort((a, b) => a - b);
+      return next;
+    });
+  };
+
   const buildOutputJson = (sourceWidgets) => {
     const cleanedWidgets = sourceWidgets
-      .sort((a, b) => a.rowMobile - b.rowMobile)
+      .sort((a, b) => a.rowM - b.rowM)
       .map(widget => {
         const cleaned = { ...widget };
-        // delete cleaned.rowMobile;
+        // delete cleaned.rowM;
         if (cleaned.col === null || cleaned.col === undefined) {
           delete cleaned.col;
         }
@@ -1038,7 +1138,7 @@ const WidgetOrganizer = () => {
     const baseWidgets = originalWidgets || DEFAULT_WIDGETS;
     const resetWidgets = baseWidgets.map((widget, index) => ({
       ...widget,
-      rowMobile: index,
+      rowM: index,
       row: widget.row ? String(parseInt(widget.row)) : null,
       column: widget.column !== undefined && widget.column !== null && widget.column !== ''
         ? String(parseInt(widget.column))
@@ -1047,6 +1147,7 @@ const WidgetOrganizer = () => {
     }));
     setWidgets(resetWidgets);
     setLastSwap(null);
+    setEmptyRowsByPlatform({ desktop: [], mobile: [] });
   };
 
   const downloadJson = () => {
@@ -1098,9 +1199,10 @@ const WidgetOrganizer = () => {
       const data = await response.json();
 
       if (data.widgets && Array.isArray(data.widgets)) {
-        data.widgets.forEach((widget, idx) => widget.rowMobile = idx);
+        data.widgets.forEach((widget, idx) => widget.rowM = idx);
         setOriginalWidgets(data.widgets);
         setWidgets(data.widgets);
+        setEmptyRowsByPlatform({ desktop: [], mobile: [] });
       } else {
         throw new Error('Invalid data format. Expected an array of widgets.');
       }
@@ -1114,8 +1216,8 @@ const WidgetOrganizer = () => {
   const groupedWidgets = useMemo(() => {
     if (platform === 'mobile') {
       const grouped = widgets.filter(widget => widget._platform !== 'desktop').reduce((acc, widget, index) => {
-        const rowKey = widget.rowMobile !== undefined && widget.rowMobile !== null
-          ? String(parseInt(widget.rowMobile))
+        const rowKey = widget.rowM !== undefined && widget.rowM !== null
+          ? String(parseInt(widget.rowM))
           : '99';
         if (!acc[rowKey]) acc[rowKey] = [];
         acc[rowKey].push({ ...widget, originalIndex: index });
@@ -1124,8 +1226,8 @@ const WidgetOrganizer = () => {
 
       Object.keys(grouped).forEach((rowKey) => {
         grouped[rowKey].sort((a, b) => {
-          const rowA = a.rowMobile !== undefined && a.rowMobile !== null ? parseInt(a.rowMobile) : 9999;
-          const rowB = b.rowMobile !== undefined && b.rowMobile !== null ? parseInt(b.rowMobile) : 9999;
+          const rowA = a.rowM !== undefined && a.rowM !== null ? parseInt(a.rowM) : 9999;
+          const rowB = b.rowM !== undefined && b.rowM !== null ? parseInt(b.rowM) : 9999;
           if (rowA !== rowB) return rowA - rowB;
           return a.originalIndex - b.originalIndex;
         });
@@ -1158,6 +1260,17 @@ const WidgetOrganizer = () => {
 
     return grouped;
   }, [platform, widgets]);
+
+  const rowsToRender = useMemo(() => {
+    const emptyRows = emptyRowsByPlatform[platform] || [];
+    const rowKeys = new Set([
+      ...Object.keys(groupedWidgets),
+      ...emptyRows.map((value) => String(value))
+    ]);
+    return Array.from(rowKeys)
+      .filter((row) => Number.isFinite(parseInt(row)) && parseInt(row) < 50)
+      .sort((a, b) => parseInt(a) - parseInt(b));
+  }, [emptyRowsByPlatform, groupedWidgets, platform]);
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
@@ -1201,6 +1314,8 @@ const WidgetOrganizer = () => {
         />
 
         <WidgetsGrid
+          platform={platform}
+          rows={rowsToRender}
           groupedWidgets={groupedWidgets}
           draggedIndex={draggedIndex}
           dragOverItem={dragOverItem}
@@ -1211,6 +1326,8 @@ const WidgetOrganizer = () => {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onWidgetClick={handleWidgetClick}
+          onAddRowAfter={handleAddRowAfter}
+          onDropOnRow={handleDropOnRow}
         />
 
         <OutputDrawer

@@ -1,247 +1,877 @@
 'use client'
 
-import React, { useState } from 'react';
-import { GripVertical, RefreshCw, Plus, Upload } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronDown, ChevronUp, GripVertical, RefreshCw, Plus, Upload } from 'lucide-react';
+import { copyToClipboard } from '../../lib/utils';
+
+const DEFAULT_WIDGETS = [
+  {
+    "label": "webstories",
+    "weblink": "",
+    "_type": "list",
+    "_sec_id": "85765840",
+    "_count": "9",
+    "_m_count": "9",
+    "row": "3",
+    "rowM": 0
+  },
+  {
+    "label": "movie",
+    "_type": "list",
+    "weblink": "",
+    "row": "1",
+    "_sec_id": "10738512",
+    "rowM": 1
+  },
+  {
+    "label": "business",
+    "weblink": "",
+    "_sec_id": "10738503",
+    "_type": "list",
+    "_rlvideoid": "50075709",
+    "row": "6",
+    "rowM": 2
+  },
+  {
+    "label": "loksabha-elections",
+    "_star": "false",
+    "_sec_id": "180203010200",
+    "msid": "",
+    "_listtype": "taxonomy",
+    "_count": "10",
+    "_m_count": "10",
+    "_type": "list",
+    "override": "https://vijaykarnataka.com/bengaluru/about-bengaluru-citizens-services",
+    "_actuallabel": "Bangalore Civil Services",
+    "row": "2",
+    "rowM": 3
+  },
+  {
+    "label": "tech",
+    "weblink": "",
+    "_type": "list",
+    "_sec_id": "60023487",
+    "_count": "7",
+    "row": "10",
+    "col": "4",
+    "column": "0",
+    "rowM": 4
+  },
+  {
+    "label": "astro",
+    "weblink": "",
+    "_sec_id": "10738518",
+    "_count": "4",
+    "_type": "list",
+    "_rlvideoid": "66705082",
+    "row": "12",
+    "col": "8",
+    "column": "0",
+    "rowM": 5
+  },
+  {
+    "label": "city",
+    "weblink": "",
+    "_sec_id": "71478549",
+    "_count": "10",
+    "_type": "list",
+    "_rlvideoid": "50075603",
+    "row": "5",
+    "rowM": 6
+  },
+  {
+    "label": "lifestyle",
+    "weblink": "",
+    "_sec_id": "57869229",
+    "_count": "17",
+    "_type": "list",
+    "_rlvideoid": "60309735",
+    "row": "9",
+    "rowM": 7
+  },
+  {
+    "label": "government_schemes",
+    "weblink": "https://vijaykarnataka.com/in-focus/schemes/government?host=vk",
+    "_count": "11",
+    "_type": "iframe",
+    "_rlvideoid": "50075616",
+    "row": "0",
+    "col": "4",
+    "column": "1",
+    "rowM": 8
+  },
+  {
+    "label": "auto",
+    "weblink": "",
+    "_sec_id": "70757673",
+    "_type": "list",
+    "_rlvideoid": "60309764",
+    "row": "10",
+    "col": "4",
+    "_count": "7",
+    "_actuallabel": "Automobile",
+    "column": "2",
+    "rowM": 9
+  },
+  {
+    "label": "travel",
+    "weblink": "",
+    "_sec_id": "70891136",
+    "_count": "6",
+    "_type": "list",
+    "_rlvideoid": "70891491",
+    "row": "4",
+    "rowM": 10
+  },
+  {
+    "label": "photo",
+    "weblink": "",
+    "_type": "photo",
+    "_sec_id": "47911469",
+    "row": "7",
+    "rowM": 11
+  },
+  {
+    "label": "corona",
+    "weblink": "",
+    "_sec_id": "10738520",
+    "_count": "6",
+    "_type": "list",
+    "_actuallabel": "Sports News",
+    "_rlvideoid": "71395281",
+    "row": "10",
+    "col": "4",
+    "column": "1",
+    "rowM": 12
+  },
+  {
+    "label": "education",
+    "weblink": "",
+    "_sec_id": "67881877",
+    "_count": "4",
+    "_type": "list",
+    "_rlvideoid": "74062505",
+    "row": "8",
+    "col": "4",
+    "column": "0",
+    "rowM": 13
+  },
+  {
+    "label": "crime",
+    "weblink": "",
+    "_sec_id": "10765232",
+    "_count": "5",
+    "_type": "list",
+    "row": "12",
+    "col": "4",
+    "column": "1",
+    "rowM": 14
+  },
+  {
+    "label": "Weather",
+    "weblink": "",
+    "_type": "weather",
+    "row": "20",
+    "rowM": 15
+  },
+  {
+    "label": "Poll",
+    "weblink": "",
+    "_type": "poll",
+    "_sec_id": "11181707",
+    "row": "13",
+    "col": "4",
+    "rowM": 16
+  },
+  {
+    "label": "Service Drawer",
+    "weblink": "",
+    "_type": "servicedrawer",
+    "rowM": 17
+  },
+  {
+    "label": "jobs",
+    "weblink": "",
+    "_sec_id": "67883630",
+    "_type": "list",
+    "row": "8",
+    "col": "4",
+    "column": "2",
+    "rowM": 18
+  },
+  {
+    "label": "religion",
+    "weblink": "",
+    "_sec_id": "70757501",
+    "_type": "list",
+    "_rlvideoid": "72254514",
+    "row": "8",
+    "col": "4",
+    "column": "1",
+    "rowM": 19
+  },
+  {
+    "label": "viral",
+    "weblink": "",
+    "_sec_id": "71395137",
+    "_count": "7",
+    "_type": "list",
+    "_actuallabel": "Viral Cross",
+    "row": "11",
+    "col": "4",
+    "column": "1",
+    "rowM": 20
+  },
+  {
+    "label": "photoiframe",
+    "weblink": "https://tamil.samayam.com/topgalleies_tamil_pwa.cms?channel=mt",
+    "_sec_id": "2339144",
+    "_count": "4",
+    "_type": "photoiframe",
+    "row": "11",
+    "col": "8",
+    "column": "0",
+    "rowM": 21
+  },
+  {
+    "label": "video",
+    "weblink": "",
+    "_sec_id": "49909262",
+    "_nav_id": "49909262",
+    "_type": "video",
+    "row": "14"
+  }
+];
+
+const AccordionHeader = ({ isOpen, onToggle, actions }) => (
+  <div className="w-full p-2 sm:p-3 rounded-lg mb-3 bg-gray-50 border border-gray-200">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <h1 className="text-lg sm:text-xl font-semibold text-gray-800">Widget Layout Organizer</h1>
+      {actions}
+    </div>
+  </div>
+);
+
+const ActionBar = ({ onReset, onCompare }) => (
+  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-3">
+    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <button
+        onClick={onReset}
+        className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors w-full sm:w-auto"
+      >
+        <RefreshCw size={14} />
+        Reset
+      </button>
+      <button
+        onClick={onCompare}
+        className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors w-full sm:w-auto"
+      >
+        Compare
+      </button>
+    </div>
+  </div>
+);
+
+const UrlImporter = ({
+  urlInput,
+  isLoading,
+  error,
+  onChange,
+  onFetch,
+  platform,
+  env,
+  site,
+  onPlatformChange,
+  onEnvChange,
+  onSiteChange,
+  placeholder
+}) => (
+  <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-500">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <h2 className="text-lg font-semibold mb-3">Import Widgets from URL</h2>
+      <div className="flex flex-col sm:flex-row gap-4 mb-3">
+      <div className="flex-1">
+        <select
+          name="platform"
+          value={platform}
+          onChange={(e) => onPlatformChange(e.target.value)}
+          className="w-30 px-2 py-1 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="desktop">desktop</option>
+          <option value="mobile">mobile</option>
+        </select>
+      </div>
+      <div className="flex-1">
+        <select
+          name="env"
+          value={env}
+          onChange={(e) => onEnvChange(e.target.value)}
+          className="w-30 px-2 py-1 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="prod">prod</option>
+          <option value="stg">stg</option>
+        </select>
+      </div>
+      <div className="flex-1">
+        <select
+          name="site"
+          value={site}
+          onChange={(e) => onSiteChange(e.target.value)}
+          className="w-30 px-2 py-1 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="nbt">nbt</option>
+          <option value="mly">mly</option>
+          <option value="tml">tml</option>
+          <option value="tlg">tlg</option>
+          <option value="mt">mt</option>
+          <option value="vk">vk</option>
+          <option value="iag">iag</option>
+        </select>
+      </div>
+      </div>
+    </div>
+    <div className="flex gap-3">
+      <input
+        type="url"
+        value={urlInput}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        onClick={onFetch}
+        disabled={isLoading}
+        className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+      >
+        <Upload size={18} />
+        {isLoading ? 'Loading...' : 'Fetch'}
+      </button>
+    </div>
+    {error && (
+      <div className="mt-2 text-red-500 text-sm">
+        {error}
+      </div>
+    )}
+  </div>
+);
+
+const WidgetCard = ({
+  widget,
+  draggedIndex,
+  dragOverItem,
+  isSwapped,
+  getWidgetTypeColor,
+  onDragStart,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onClick
+}) => (
+  <div
+    draggable
+    onDragStart={(e) => onDragStart(e, widget.originalIndex)}
+    onDragOver={(e) => onDragOver(e, widget.originalIndex)}
+    onDragLeave={onDragLeave}
+    onDrop={(e) => onDrop(e, widget.originalIndex)}
+    className={`
+      ${draggedIndex === widget.originalIndex ? 'opacity-50 scale-95' : ''}
+      ${dragOverItem === widget.originalIndex ? 'ring-2 ring-blue-400 scale-105' : ''}
+      ${isSwapped ? 'border-red-300' : ''}
+      ${getWidgetTypeColor(widget._type)}
+    `.trim() + ' relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200 hover:shadow-md hover:scale-[1.02]'}
+    onClick={() => onClick(widget)}
+    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nColumn: ${widget.column}\nCol: ${widget.col}`}
+  >
+    <div className="flex items-start justify-between">
+      <div className="flex-1">
+        <div className="flex items-center gap-2 mb-2">
+          <GripVertical size={16} className="text-gray-400" />
+          <h4 className="font-semibold text-sm">
+            {widget._actuallabel || widget.label}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const WidgetsGrid = ({
+  groupedWidgets,
+  draggedIndex,
+  dragOverItem,
+  lastSwap,
+  getWidgetTypeColor,
+  onDragStart,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onWidgetClick
+}) => (
+  <div className="grid gap-4">
+    {Object.keys(groupedWidgets)
+      .filter(row => parseInt(row) < 50)
+      .sort((a, b) => parseInt(a) - parseInt(b))
+      .map((row) => (
+        <div key={row} className="bg-gray-100 p-1 sm:p-1 rounded-lg">
+          <h6 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h6>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            {/* Placeholder Headline WidgetCard on first row */}
+            {parseInt(row) === 0 && (
+              <div className="grid grid-cols-8">
+                <div className="col-span-8">
+                  <div
+                    className="relative p-1 sm:p-1 rounded-lg border-2 bg-blue-100 text-blue-700 flex items-center justify-center min-h-[36px] text-lg font-semibold opacity-75"
+                    style={{ pointerEvents: 'none', userSelect: 'none' }}
+                    tabIndex={-1}
+                    aria-disabled="true"
+                  >
+                    Headline
+                  </div>
+                </div>
+              </div>
+            )}
+            {groupedWidgets[row].map((widget) => (
+              <WidgetCard
+                key={widget.originalIndex + widget.label}
+                widget={widget}
+                draggedIndex={draggedIndex}
+                dragOverItem={dragOverItem}
+                isSwapped={lastSwap?.includes(widget.originalIndex)}
+                getWidgetTypeColor={getWidgetTypeColor}
+                onDragStart={onDragStart}
+                onDragOver={onDragOver}
+                onDragLeave={onDragLeave}
+                onDrop={(e, dropIndex) => onDrop(e, dropIndex, row)}
+                onClick={onWidgetClick}
+              />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+);
+
+const OutputDrawer = ({ showOutput, output, onClose, onCopy }) => {
+  if (!showOutput) return null;
+
+  return (
+    <div className="fixed inset-0 bg-zinc-800/90 z-50 flex justify-end">
+      <div
+        id="outputBox"
+        className="w-full max-w-2xl h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
+        style={{ transform: showOutput ? 'translateX(0)' : 'translateX(100%)' }}
+      >
+        <div className="h-full flex flex-col">
+          <div className="flex justify-between items-center p-4 border-b">
+            <h3 className="text-lg font-semibold text-gray-800">Generated JSON Output</h3>
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 overflow-auto p-4">
+            <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              {output}
+            </pre>
+          </div>
+          <div className="p-4 border-t">
+            <button
+              onClick={onCopy}
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Copy to Clipboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const diffLines = (fromText, toText) => {
+  const fromLines = fromText.split('\n');
+  const toLines = toText.split('\n');
+  const m = fromLines.length;
+  const n = toLines.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = m - 1; i >= 0; i -= 1) {
+    for (let j = n - 1; j >= 0; j -= 1) {
+      if (fromLines[i] === toLines[j]) {
+        dp[i][j] = dp[i + 1][j + 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+      }
+    }
+  }
+
+  const fromResult = [];
+  const toResult = [];
+  const steps = [];
+  let fromIndex = 0;
+  let toIndex = 0;
+  let i = 0;
+  let j = 0;
+  while (i < m && j < n) {
+    if (fromLines[i] === toLines[j]) {
+      fromResult.push({ text: fromLines[i], type: 'same' });
+      toResult.push({ text: toLines[j], type: 'same' });
+      steps.push({ fromIndex, toIndex, type: 'same' });
+      fromIndex += 1;
+      toIndex += 1;
+      i += 1;
+      j += 1;
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+      fromResult.push({ text: fromLines[i], type: 'removed' });
+      steps.push({ fromIndex, toIndex: null, type: 'removed' });
+      fromIndex += 1;
+      i += 1;
+    } else {
+      toResult.push({ text: toLines[j], type: 'added' });
+      j += 1;
+    }
+  }
+  while (i < m) {
+    fromResult.push({ text: fromLines[i], type: 'removed' });
+    steps.push({ fromIndex, toIndex: null, type: 'removed' });
+    fromIndex += 1;
+    i += 1;
+  }
+  while (j < n) {
+    toResult.push({ text: toLines[j], type: 'added' });
+    steps.push({ fromIndex: null, toIndex, type: 'added' });
+    toIndex += 1;
+    j += 1;
+  }
+
+  return { fromResult, toResult, steps };
+};
+
+const DiffCodeBlock = ({ lines, activeIndex }) => (
+  <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+    {lines.map((line, idx) => (
+      <div
+        key={`${idx}-${line.type}`}
+        data-line-index={idx}
+        className={`${line.type === 'added'
+          ? 'bg-green-900/40 text-green-200'
+          : line.type === 'removed'
+            ? 'bg-red-900/40 text-red-200'
+            : ''} ${idx === activeIndex ? 'ring-2 ring-yellow-400' : ''}`}
+      >
+        {line.text}
+      </div>
+    ))}
+  </pre>
+);
+
+const CompareModal = ({ isOpen, initialJson, currentJson, onClose, onCopyCurrent }) => {
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+  const syncingRef = useRef(false);
+  const copyTimeoutRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+  const [diffIndex, setDiffIndex] = useState(0);
+
+  const { fromResult, toResult, steps } = useMemo(
+    () => diffLines(initialJson || '', currentJson || ''),
+    [initialJson, currentJson]
+  );
+  const diffSteps = useMemo(
+    () => steps.filter((step) => step.type !== 'same'),
+    [steps]
+  );
+  const hasDiffs = diffSteps.length > 0;
+  const activeStep = hasDiffs ? diffSteps[diffIndex] : null;
+
+  const syncScroll = (targetRef) => (e) => {
+    if (syncingRef.current) return;
+    syncingRef.current = true;
+    if (targetRef.current) {
+      targetRef.current.scrollTop = e.currentTarget.scrollTop;
+    }
+    requestAnimationFrame(() => {
+      syncingRef.current = false;
+    });
+  };
+
+  const scrollToLine = (containerRef, lineIndex) => {
+    if (lineIndex === null || lineIndex === undefined) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const lineEl = container.querySelector(`[data-line-index="${lineIndex}"]`);
+    if (lineEl) {
+      lineEl.scrollIntoView({ block: 'center' });
+    }
+  };
+
+  const goToPrevDiff = () => {
+    if (!hasDiffs) return;
+    setDiffIndex((prev) => (prev - 1 + diffSteps.length) % diffSteps.length);
+  };
+
+  const goToNextDiff = () => {
+    if (!hasDiffs) return;
+    setDiffIndex((prev) => (prev + 1) % diffSteps.length);
+  };
+
+  const handleCopy = async () => {
+    if (!onCopyCurrent) return;
+    const didCopy = await onCopyCurrent();
+    if (didCopy) {
+      setCopied(true);
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+      copyTimeoutRef.current = setTimeout(() => {
+        setCopied(false);
+      }, 1600);
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setDiffIndex(0);
+    setCopied(false);
+  }, [isOpen, initialJson, currentJson]);
+
+  useEffect(() => {
+    if (!isOpen || !activeStep) return;
+    scrollToLine(leftRef, activeStep.fromIndex);
+    scrollToLine(rightRef, activeStep.toIndex);
+  }, [activeStep, isOpen]);
+
+  useEffect(
+    () => () => {
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+    },
+    []
+  );
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-zinc-800/90 z-50 flex justify-center items-center">
+      <div className="w-full max-w-5xl h-[85vh] bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="flex justify-between items-center p-4 border-b">
+          <div className="flex items-center gap-3">
+            <h3 className="text-lg font-semibold text-gray-800">Compare JSON</h3>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <button
+                type="button"
+                onClick={goToPrevDiff}
+                disabled={!hasDiffs}
+                className={`p-1 rounded border ${hasDiffs ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}
+                title="Previous difference"
+              >
+                <ChevronUp className="w-4 h-4" />
+              </button>
+              <span className="px-2">
+                {hasDiffs ? `${diffIndex + 1}/${diffSteps.length}` : '0/0'}
+              </span>
+              <button
+                type="button"
+                onClick={goToNextDiff}
+                disabled={!hasDiffs}
+                className={`p-1 rounded border ${hasDiffs ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}
+                title="Next difference"
+              >
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+            <button
+                onClick={handleCopy}
+                className={`text-xs px-2 py-1 rounded text-white transition-colors ${copied ? 'bg-emerald-500 shadow-inner' : 'bg-blue-500 hover:bg-blue-600'}`}
+              >
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+          </div>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 h-[calc(85vh-64px)]">
+          <div
+            ref={leftRef}
+            onScroll={syncScroll(rightRef)}
+            className="border-r p-4 overflow-auto"
+          >
+            <h4 className="text-sm font-semibold text-gray-600 mb-2">Previous JSON</h4>
+            <DiffCodeBlock lines={fromResult} activeIndex={activeStep?.fromIndex ?? null} />
+          </div>
+          <div
+            ref={rightRef}
+            onScroll={syncScroll(leftRef)}
+            className="p-4 overflow-auto"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-semibold text-gray-600">New JSON</h4>
+              
+            </div>
+            <DiffCodeBlock lines={toResult} activeIndex={activeStep?.toIndex ?? null} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const WidgetTypeTags = () => (
+  <div className="mt-6 text-sm text-gray-500">
+    <h4 className="font-semibold mb-2">Widget Types:</h4>
+    <div className="flex flex-wrap gap-2">
+      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">List</span>
+      <span className="px-2 py-1 bg-red-100 text-red-800 rounded">Video</span>
+      <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Photo</span>
+      <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Photo Iframe</span>
+      <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Weather</span>
+      <span className="px-2 py-1 bg-pink-100 text-pink-800 rounded">Poll</span>
+      <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded">Iframe</span>
+      <span className="px-2 py-1 bg-gray-100 text-gray-800 rounded">Service Drawer</span>
+    </div>
+  </div>
+);
+
+const EditWidgetModal = ({ selectedWidget, onClose, onSave, onChange }) => {
+  if (!selectedWidget) return null;
+
+  return (
+    <div className="fixed inset-0 bg-zinc-800/95 flex justify-center items-center z-50">
+      <div className="bg-white text-gray-800 p-6 rounded shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">Edit Widget</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">Label</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.label}
+              onChange={(e) => onChange({ ...selectedWidget, label: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Section ID</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget._sec_id || ''}
+              onChange={(e) => onChange({ ...selectedWidget, _sec_id: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Count</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget._count || ''}
+              onChange={(e) => onChange({ ...selectedWidget, _count: e.target.value })}
+            />
+          </div>
+          {selectedWidget.component && (
+            <div>
+              <label className="block text-sm font-medium">Component Desktop</label>
+              <input
+                type="text"
+                className="w-full border p-2 rounded"
+                value={selectedWidget.component?.desktop || ''}
+                onChange={(e) =>
+                  onChange({
+                    ...selectedWidget,
+                    component: { desktop: e.target.value, mobile: selectedWidget.component.mobile }
+                  })
+                }
+              />
+            </div>
+          )}
+          <div>
+            <label className="block text-sm font-medium">Row</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.row || ''}
+              onChange={(e) => onChange({ ...selectedWidget, row: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Column (0-2)</label>
+            <input
+              type="number"
+              min="0"
+              max="3"
+              step="1"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.column || ''}
+              onChange={(e) => onChange({ ...selectedWidget, column: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Col (Span)</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget.col || ''}
+              onChange={(e) => onChange({ ...selectedWidget, col: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Actual Label</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={selectedWidget._actuallabel || ''}
+              onChange={(e) => onChange({ ...selectedWidget, _actuallabel: e.target.value })}
+            />
+          </div>
+          <div className="flex justify-end gap-2 pt-4">
+            <button
+              className="px-4 py-2 bg-gray-300 rounded"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+              onClick={onSave}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const WidgetOrganizer = () => {
-  const [widgets, setWidgets] = useState([
-    {
-      "label": "webstories",
-      "weblink": "",
-      "_type": "list",
-      "_sec_id": "85765840",
-      "_count": "9",
-      "_m_count": "9",
-      "row": "3",
-      "rowMobile": 0
-    },
-    {
-      "label": "movie",
-      "_type": "list",
-      "weblink": "",
-      "row": "1",
-      "_sec_id": "10738512",
-      "rowMobile": 1
-    },
-    {
-      "label": "business",
-      "weblink": "",
-      "_sec_id": "10738503",
-      "_type": "list",
-      "_rlvideoid": "50075709",
-      "row": "6",
-      "rowMobile": 2
-    },
-    {
-      "label": "loksabha-elections",
-      "_star": "false",
-      "_sec_id": "180203010200",
-      "msid": "",
-      "_listtype": "taxonomy",
-      "_count": "10",
-      "_m_count": "10",
-      "_type": "list",
-      "override": "https://vijaykarnataka.com/bengaluru/about-bengaluru-citizens-services",
-      "_actuallabel": "Bangalore Civil Services",
-      "row": "2",
-      "rowMobile": 3
-    },
-    {
-      "label": "tech",
-      "weblink": "",
-      "_type": "list",
-      "_sec_id": "60023487",
-      "_count": "7",
-      "row": "10",
-      "col": "4",
-      "rowMobile": 4
-    },
-    {
-      "label": "astro",
-      "weblink": "",
-      "_sec_id": "10738518",
-      "_count": "4",
-      "_type": "list",
-      "_rlvideoid": "66705082",
-      "row": "12",
-      "col": "8",
-      "rowMobile": 5
-    },
-    {
-      "label": "city",
-      "weblink": "",
-      "_sec_id": "71478549",
-      "_count": "10",
-      "_type": "list",
-      "_rlvideoid": "50075603",
-      "row": "5",
-      "rowMobile": 6
-    },
-    {
-      "label": "lifestyle",
-      "weblink": "",
-      "_sec_id": "57869229",
-      "_count": "17",
-      "_type": "list",
-      "_rlvideoid": "60309735",
-      "row": "9",
-      "rowMobile": 7
-    },
-    {
-      "label": "government_schemes",
-      "weblink": "https://vijaykarnataka.com/in-focus/schemes/government?host=vk",
-      "_count": "11",
-      "_type": "iframe",
-      "_rlvideoid": "50075616",
-      "row": "0",
-      "col": "4",
-      "rowMobile": 8
-    },
-    {
-      "label": "auto",
-      "weblink": "",
-      "_sec_id": "70757673",
-      "_type": "list",
-      "_rlvideoid": "60309764",
-      "row": "10",
-      "col": "4",
-      "_count": "7",
-      "_actuallabel": "Automobile",
-      "rowMobile": 9
-    },
-    {
-      "label": "travel",
-      "weblink": "",
-      "_sec_id": "70891136",
-      "_count": "6",
-      "_type": "list",
-      "_rlvideoid": "70891491",
-      "row": "4",
-      "rowMobile": 10
-    },
-    {
-      "label": "photo",
-      "weblink": "",
-      "_type": "photo",
-      "_sec_id": "47911469",
-      "row": "7",
-      "rowMobile": 11
-    },
-    {
-      "label": "corona",
-      "weblink": "",
-      "_sec_id": "10738520",
-      "_count": "6",
-      "_type": "list",
-      "_actuallabel": "Sports News",
-      "_rlvideoid": "71395281",
-      "row": "10",
-      "col": "4",
-      "rowMobile": 12
-    },
-    {
-      "label": "education",
-      "weblink": "",
-      "_sec_id": "67881877",
-      "_count": "4",
-      "_type": "list",
-      "_rlvideoid": "74062505",
-      "row": "8",
-      "col": "4",
-      "rowMobile": 13
-    },
-    {
-      "label": "crime",
-      "weblink": "",
-      "_sec_id": "10765232",
-      "_count": "5",
-      "_type": "list",
-      "row": "12",
-      "col": "4",
-      "rowMobile": 14
-    },
-    {
-      "label": "Weather",
-      "weblink": "",
-      "_type": "weather",
-      "row": "20",
-      "rowMobile": 15
-    },
-    {
-      "label": "Poll",
-      "weblink": "",
-      "_type": "poll",
-      "_sec_id": "11181707",
-      "row": "13",
-      "col": "4",
-      "rowMobile": 16
-    },
-    {
-      "label": "Service Drawer",
-      "weblink": "",
-      "_type": "servicedrawer",
-      "rowMobile": 17
-    },
-    {
-      "label": "jobs",
-      "weblink": "",
-      "_sec_id": "67883630",
-      "_type": "list",
-      "row": "8",
-      "col": "4",
-      "rowMobile": 18
-    },
-    {
-      "label": "religion",
-      "weblink": "",
-      "_sec_id": "70757501",
-      "_type": "list",
-      "_rlvideoid": "72254514",
-      "row": "8",
-      "col": "4",
-      "rowMobile": 19
-    },
-    {
-      "label": "viral",
-      "weblink": "",
-      "_sec_id": "71395137",
-      "_count": "7",
-      "_type": "list",
-      "_actuallabel": "Viral Cross",
-      "row": "11",
-      "col": "4",
-      "rowMobile": 20
-    },
-    {
-      "label": "photoiframe",
-      "weblink": "https://tamil.samayam.com/topgalleies_tamil_pwa.cms?channel=mt",
-      "_sec_id": "2339144",
-      "_count": "4",
-      "_type": "photoiframe",
-      "row": "11",
-      "col": "8",
-      "rowMobile": 21
-    },
-    {
-      "label": "video",
-      "weblink": "",
-      "_sec_id": "49909262",
-      "_nav_id": "49909262",
-      "_type": "video",
-      "row": "14",
-      "rowMobile": 22
-    }
-]);
-  const [draggedItem, setDraggedItem] = useState(null);
+  const [widgets, setWidgets] = useState(DEFAULT_WIDGETS);
+  const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverItem, setDragOverItem] = useState(null);
   const [output, setOutput] = useState('');
   const [showOutput, setShowOutput] = useState(false);
   const [selectedWidget, setSelectedWidget] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [urlInput, setUrlInput] = useState('');
+  const [lastSwap, setLastSwap] = useState(null);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
+  const [platform, setPlatform] = useState('desktop');
+  const URL_TEMPLATE = 'HOME_PAGE_WIDGETS';
+  const URL_IS_LIVE = 'yes';
+  const URL_PLACEHOLDER = 'https://tmlfeed.samayam.com/langapi/config?property=nbt&template=HOME_PAGE_WIDGETS&islive=yes';
+  const [env, setEnv] = useState('prod');
+  const [site, setSite] = useState('nbt');
+  const [urlInput, setUrlInput] = useState(URL_PLACEHOLDER);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const [originalWidgets, setOriginalWidgets] = useState(null);
 
   const handleWidgetClick = (widget) => {
     setSelectedWidget(widget);
@@ -256,6 +886,19 @@ const WidgetOrganizer = () => {
       setWidgets(updatedWidgets);
     }
     setIsModalOpen(false);
+  };
+
+  const handlePlatformChange = (value) => {
+    setPlatform(value);
+    if (value === 'mobile') {
+      setWidgets((prev) => (
+        [...prev].sort((a, b) => {
+          const rowA = a.rowM !== undefined && a.rowM !== null ? parseInt(a.rowM) : 9999;
+          const rowB = b.rowM !== undefined && b.rowM !== null ? parseInt(b.rowM) : 9999;
+          return rowA - rowB;
+        })
+      ));
+    }
   };
 
   const getWidgetTypeColor = (type) => {
@@ -273,7 +916,7 @@ const WidgetOrganizer = () => {
   };
 
   const handleDragStart = (e, index) => {
-    setDraggedItem(index);
+    setDraggedIndex(index);
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -288,76 +931,124 @@ const WidgetOrganizer = () => {
 
   const handleDrop = (e, dropIndex, targetRow) => {
     e.preventDefault();
-    if (draggedItem === null || draggedItem === dropIndex) {
-      setDraggedItem(null);
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
       setDragOverItem(null);
       return;
     }
 
     const newWidgets = [...widgets];
-    let draggedWidget = newWidgets[draggedItem];
+    let draggedWidget = newWidgets[draggedIndex];
     let dropWidget = newWidgets[dropIndex];
-    let tempWidget = {...draggedWidget};
+    let tempWidget = { ...draggedWidget };
 
-    draggedWidget.label = dropWidget.label;
-    draggedWidget._actuallabel = dropWidget._actuallabel;
-    draggedWidget.weblink = dropWidget.weblink;
-    draggedWidget._type = dropWidget._type;
-    draggedWidget._sec_id = dropWidget._sec_id;
+    // dropWidget.row && (draggedWidget.row = dropWidget.row);
+    // dropWidget.col && (draggedWidget.col = dropWidget.col);
 
-    dropWidget.label = tempWidget.label;
-    dropWidget._actuallabel = tempWidget._actuallabel;
-    dropWidget.weblink = tempWidget.weblink;
-    dropWidget._type = tempWidget._type;
-    dropWidget._sec_id = tempWidget._sec_id;
+    // If the platform is mobile and the rowM is not the same, then swap the rowM
+    // If the platform is desktop and the row is the same, then swap the column
+    // If the platform is desktop and the component is the same, then swap the row
+    // If the platform is desktop and the col is the same, then swap the label
+    // If the platform is desktop and the sec_id is the same, then swap the type
+    // If the platform is desktop and the actuallabel is the same, then swap the weblink
+    if(platform === 'mobile' && dropWidget.rowM !== draggedWidget.rowM){
+      draggedWidget.rowM = dropWidget.rowM;
+      dropWidget.rowM = tempWidget.rowM;
+    } else if(platform === 'desktop'){
+      if(dropWidget.row === draggedWidget.row) {
+        draggedWidget.column = dropWidget.column;
+        dropWidget.column = tempWidget.column;
+      } else if(dropWidget.component || draggedWidget.component) {
+        draggedWidget.row = dropWidget.row;
+        dropWidget.row = tempWidget.row;
+      } else if (dropWidget.col || draggedWidget.col) {
+        draggedWidget.label = dropWidget.label;
+        draggedWidget._actuallabel = dropWidget._actuallabel;
+        draggedWidget.weblink = dropWidget.weblink;
+        draggedWidget._type = dropWidget._type;
+        draggedWidget._sec_id = dropWidget._sec_id;
+        // if(dropWidget.component)draggedWidget.component = dropWidget.component;
+
+        // tempWidget.row && (dropWidget.row = tempWidget.row);
+        // tempWidget.col && (dropWidget.col = tempWidget.col);
+        dropWidget.label = tempWidget.label;
+        dropWidget._actuallabel = tempWidget._actuallabel;
+        dropWidget.weblink = tempWidget.weblink;
+        dropWidget._type = tempWidget._type;
+        dropWidget._sec_id = tempWidget._sec_id;
+        // if(tempWidget.component)dropWidget.component = tempWidget.component;
+      } else {
+        draggedWidget.row = dropWidget.row;
+        dropWidget.row = tempWidget.row;
+      }
+    }
 
     // Remove dragged item
-    // newWidgets.splice(draggedItem, 1);
-    
+    // newWidgets.splice(draggedIndex, 1);
+
     // // Insert at new position
-    // const insertIndex = draggedItem < dropIndex ? dropIndex - 1 : dropIndex;
+    // const insertIndex = draggedIndex < dropIndex ? dropIndex - 1 : dropIndex;
     // newWidgets.splice(insertIndex, 0, draggedWidget);
-    
+
     // Update row and col positions
     const updatedWidgets = newWidgets.map((widget, index) => ({
       ...widget,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
-    
+
     setWidgets(updatedWidgets);
-    setDraggedItem(null);
+    setLastSwap([draggedIndex, dropIndex]);
+    setDraggedIndex(null);
     setDragOverItem(null);
   };
 
+  const buildOutputJson = (sourceWidgets) => {
+    const cleanedWidgets = sourceWidgets
+      .sort((a, b) => a.rowM - b.rowM)
+      .map(widget => {
+        const cleaned = { ...widget };
+        // delete cleaned.rowM;
+        if (cleaned.col === null || cleaned.col === undefined) {
+          delete cleaned.col;
+        }
+        if (cleaned.column === null || cleaned.column === undefined) {
+          delete cleaned.column;
+        }
+        if (cleaned.row === null || cleaned.row === undefined) {
+          delete cleaned.row;
+        }
+        if (cleaned.originalIndex) {
+          delete cleaned.originalIndex;
+        }
+        return cleaned;
+      });
+
+    return { widgets: cleanedWidgets };
+  };
+
   const generateOutput = () => {
-    const cleanedWidgets = widgets.map(widget => {
-      const cleaned = { ...widget };
-      if (cleaned.col === null || cleaned.col === undefined) {
-        delete cleaned.col;
-      }
-      if (cleaned.row === null || cleaned.row === undefined) {
-        delete cleaned.row;
-      }
-      if (cleaned.originalIndex) {
-        delete cleaned.originalIndex;
-      }
-      return cleaned;
-    });
-    const outputJson = { widgets: cleanedWidgets };
-    // const outputJson = {"widgets":widgets};
+    const outputJson = buildOutputJson([...widgets]);
     setOutput(JSON.stringify(outputJson, null, 2));
     setShowOutput(true);
   };
 
   const resetLayout = () => {
-    // Reset to original order with updated positions
-    const resetWidgets = widgets.map((widget, index) => ({
+    const baseWidgets = originalWidgets || DEFAULT_WIDGETS;
+    const resetWidgets = baseWidgets.map((widget, index) => ({
       ...widget,
+      rowM: index,
       row: widget.row ? String(parseInt(widget.row)) : null,
+      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
+        ? String(parseInt(widget.column))
+        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
     setWidgets(resetWidgets);
+    setLastSwap(null);
   };
 
   const downloadJson = () => {
@@ -377,6 +1068,21 @@ const WidgetOrganizer = () => {
     URL.revokeObjectURL(url);
   };
 
+  const buildConfigUrl = (envValue, siteValue) => {
+    const domain = envValue === 'stg' ? 'https://tmllangfeed.samayam.com' : 'https://tmlfeed.samayam.com';
+    return `${domain}/langapi/config?property=${siteValue}&template=${URL_TEMPLATE}&islive=${URL_IS_LIVE}`;
+  };
+
+  const handleEnvChange = (value) => {
+    setEnv(value);
+    setUrlInput(buildConfigUrl(value, site));
+  };
+
+  const handleSiteChange = (value) => {
+    setSite(value);
+    setUrlInput(buildConfigUrl(env, value));
+  };
+
   const handleUrlFetch = async () => {
     if (!urlInput) {
       setError('Please enter a URL');
@@ -392,8 +1098,10 @@ const WidgetOrganizer = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      
+
       if (data.widgets && Array.isArray(data.widgets)) {
+        data.widgets.forEach((widget, idx) => widget.rowM = idx);
+        setOriginalWidgets(data.widgets);
         setWidgets(data.widgets);
       } else {
         throw new Error('Invalid data format. Expected an array of widgets.');
@@ -405,299 +1113,134 @@ const WidgetOrganizer = () => {
     }
   };
 
-  // Group widgets by row for display
-  const groupedWidgets = widgets.reduce((acc, widget, index) => {
-    let newrow = widget.row;
-    if (widget.col) {
-      newrow = newrow + ".10";
-    } else if (newrow) {
-      newrow = newrow + "." + index;
-    } else {
-      newrow = "99";
+  const groupedWidgets = useMemo(() => {
+    if (platform === 'mobile') {
+      const grouped = widgets.filter(widget => widget._platform !== 'desktop').reduce((acc, widget, index) => {
+        const rowKey = widget.rowM !== undefined && widget.rowM !== null
+          ? String(parseInt(widget.rowM))
+          : '99';
+        if (!acc[rowKey]) acc[rowKey] = [];
+        acc[rowKey].push({ ...widget, originalIndex: index });
+        return acc;
+      }, {});
+
+      Object.keys(grouped).forEach((rowKey) => {
+        grouped[rowKey].sort((a, b) => {
+          const rowA = a.rowM !== undefined && a.rowM !== null ? parseInt(a.rowM) : 9999;
+          const rowB = b.rowM !== undefined && b.rowM !== null ? parseInt(b.rowM) : 9999;
+          if (rowA !== rowB) return rowA - rowB;
+          return a.originalIndex - b.originalIndex;
+        });
+      });
+
+      return grouped;
     }
-    if (!acc[newrow]) acc[newrow] = [];
-    acc[newrow].push({ ...widget, originalIndex: index });
-    return acc;
-  }, {});
+
+    const grouped = widgets.reduce((acc, widget, index) => {
+      const rowKey = widget.row ? String(parseInt(widget.row)) : '99';
+      if (!acc[rowKey]) acc[rowKey] = [];
+      acc[rowKey].push({ ...widget, originalIndex: index });
+      return acc;
+    }, {});
+
+    // Sort the widgets by column
+    // If column is not set, sort by originalIndex
+    Object.keys(grouped).forEach((rowKey) => {
+      grouped[rowKey].sort((a, b) => {
+        const columnA = a.column !== undefined && a.column !== null && a.column !== ''
+          ? parseInt(a.column)
+          : Number.POSITIVE_INFINITY;
+        const columnB = b.column !== undefined && b.column !== null && b.column !== ''
+          ? parseInt(b.column)
+          : Number.POSITIVE_INFINITY;
+        if (columnA !== columnB) return columnA - columnB;
+        return a.originalIndex - b.originalIndex;
+      });
+    });
+
+    return grouped;
+  }, [platform, widgets]);
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
       <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 ">
-        <button
-          onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-          className="w-full flex justify-between items-center hover:bg-gray-100 transition-colors p-4 rounded-lg mb-4 bg-gray-50 rounded-lg border border-gray-200 "
-        >
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Widget Layout Organizer</h1>
-          <svg
-            className={`w-6 h-6 transform transition-transform duration-200 ${isAccordionOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            stroke="#aaa"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        
-        <div 
+        <AccordionHeader
+          isOpen={isAccordionOpen}
+          onToggle={() => setIsAccordionOpen(!isAccordionOpen)}
+          actions={(
+            <ActionBar
+              onReset={resetLayout}
+              onCompare={() => setIsCompareOpen(true)}
+            />
+          )}
+        />
+
+        <div
           id="accordian"
-          className={`grid transition-all duration-200 ease-in-out ${
-            isAccordionOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-          }`}
+          className={`grid transition-all duration-200 ease-in-out ${isAccordionOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+            }`}
         >
           <div className="overflow-hidden">
             <div>
               {/* Header + Button Row */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-                  <button
-                    onClick={resetLayout}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors w-full sm:w-auto"
-                  >
-                    <RefreshCw size={18} />
-                    Reset
-                  </button>
-                  <button
-                    onClick={generateOutput}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors w-full sm:w-auto"
-                  >
-                    <Plus size={18} />
-                    Generate JSON
-                  </button>
-                  {/* <button
-                    onClick={downloadJson}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors w-full sm:w-auto"
-                  >
-                    <Download size={18} />
-                    Download
-                  </button> */}
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* URL Uploader Section */}
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-500">
-          <h2 className="text-lg font-semibold mb-3">Import Widgets from URL</h2>
-          <div className="flex gap-3">
-            <input
-              type="url"
-              value={urlInput}
-              onChange={(e) => setUrlInput(e.target.value)}
-              placeholder="Enter URL to fetch widget data"
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              onClick={handleUrlFetch}
-              disabled={isLoading}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
-            >
-              <Upload size={18} />
-              {isLoading ? 'Loading...' : 'Fetch'}
-            </button>
-          </div>
-          {error && (
-            <div className="mt-2 text-red-500 text-sm">
-              {error}
-            </div>
-          )}
-        </div>
+        <UrlImporter
+          urlInput={urlInput}
+          isLoading={isLoading}
+          error={error}
+          onChange={setUrlInput}
+          onFetch={handleUrlFetch}
+          platform={platform}
+          env={env}
+          site={site}
+          onPlatformChange={handlePlatformChange}
+          onEnvChange={handleEnvChange}
+          onSiteChange={handleSiteChange}
+          placeholder={URL_PLACEHOLDER}
+        />
 
-        {/* Widgets grid */}
-        <div className="grid gap-4">
-          {Object.keys(groupedWidgets).sort((a, b) => parseInt(a) - parseInt(b)).map((row) => (
-            <div key={row} key1={row}  className="bg-gray-100 p-2 sm:p-2 rounded-lg">
-              <h6 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">Row {parseInt(row)}</h6>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-                {groupedWidgets[row].map((widget,idx) => (
-                  <div
-                    key={widget.originalIndex + widget.label}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, widget.originalIndex)}
-                    onDragOver={(e) => handleDragOver(e, widget.originalIndex)}
-                    onDragLeave={handleDragLeave}
-                    onDrop={(e) => handleDrop(e, widget.originalIndex, row)}
-                    className={`
-                      relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200
-                      ${getWidgetTypeColor(widget._type)}
-                      ${draggedItem === widget.originalIndex ? 'opacity-50 scale-95' : ''}
-                      ${dragOverItem === widget.originalIndex ? 'ring-2 ring-blue-400 scale-105' : ''}
-                      hover:shadow-md hover:scale-[1.02]
-                    `}
-                    onClick={() => handleWidgetClick(widget)}
-                    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <GripVertical size={16} className="text-gray-400" />
-                          <h4 className="font-semibold text-sm">
-                            {widget._actuallabel || widget.label}
-                          </h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <WidgetsGrid
+          groupedWidgets={groupedWidgets}
+          draggedIndex={draggedIndex}
+          dragOverItem={dragOverItem}
+          lastSwap={lastSwap}
+          getWidgetTypeColor={getWidgetTypeColor}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onWidgetClick={handleWidgetClick}
+        />
 
-        {/* JSON Output section */}
-        {showOutput && (
-          <div className="fixed inset-0 bg-zinc-800/90 z-50 flex justify-end">
-            <div 
-              id="outputBox" 
-              className="w-full max-w-2xl h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
-              style={{ transform: showOutput ? 'translateX(0)' : 'translateX(100%)' }}
-            >
-              <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center p-4 border-b">
-                  <h3 className="text-lg font-semibold text-gray-800">Generated JSON Output</h3>
-                  <button
-                    onClick={() => setShowOutput(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex-1 overflow-auto p-4">
-                  <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
-                    {output}
-                  </pre>
-                </div>
-                <div className="p-4 border-t">
-                  <button
-                    onClick={() => navigator.clipboard.writeText(output)}
-                    className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    Copy to Clipboard
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <OutputDrawer
+          showOutput={showOutput}
+          output={output}
+          onClose={() => setShowOutput(false)}
+          onCopy={() => copyToClipboard(output)}
+        />
+
+        {isCompareOpen && ( 
+          <CompareModal
+            isOpen={isCompareOpen}
+            initialJson={JSON.stringify(buildOutputJson([...(originalWidgets || DEFAULT_WIDGETS)]), null, 2)}
+            currentJson={JSON.stringify(buildOutputJson([...widgets]), null, 2)}
+            onClose={() => setIsCompareOpen(false)}
+            onCopyCurrent={() => copyToClipboard(JSON.stringify(buildOutputJson([...widgets]), null, 2))}
+          />
         )}
 
-        {/* Widget type tags */}
-        <div className="mt-6 text-sm text-gray-500">
-          <h4 className="font-semibold mb-2">Widget Types:</h4>
-          <div className="flex flex-wrap gap-2">
-            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">List</span>
-            <span className="px-2 py-1 bg-red-100 text-red-800 rounded">Video</span>
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Photo</span>
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Photo Iframe</span>
-            <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Weather</span>
-            <span className="px-2 py-1 bg-pink-100 text-pink-800 rounded">Poll</span>
-            <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded">Iframe</span>
-            <span className="px-2 py-1 bg-gray-100 text-gray-800 rounded">Service Drawer</span>
-          </div>
-        </div>
+        <WidgetTypeTags />
       </div>
-      {isModalOpen && selectedWidget && (
-        <div className="fixed inset-0 bg-zinc-800/95 flex justify-center items-center z-50">
-          <div className="bg-white text-gray-800 p-6 rounded shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Edit Widget</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium">Label</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget.label}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, label: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Section ID</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget._sec_id || ''}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, _sec_id: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Count</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget._count || ''}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, _count: e.target.value })
-                  }
-                />
-              </div>
-              {selectedWidget.component && (
-                <div>
-                  <label className="block text-sm font-medium">Component Desktop</label>
-                  <input
-                    type="text"
-                    className="w-full border p-2 rounded"
-                    value={selectedWidget.component?.desktop || ''}
-                    onChange={(e) =>
-                      setSelectedWidget({ ...selectedWidget, component: {desktop: e.target.value, mobile: selectedWidget.component.mobile} })
-                  }
-                  />
-                </div>
-              )}
-              <div>
-                <label className="block text-sm font-medium">Row</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget.row || ''}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, row: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Column</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget.col || ''}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, col: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Actual Label</label>
-                <input
-                  type="text"
-                  className="w-full border p-2 rounded"
-                  value={selectedWidget._actuallabel || ''}
-                  onChange={(e) =>
-                    setSelectedWidget({ ...selectedWidget, _actuallabel: e.target.value })
-                  }
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-4">
-                <button
-                  className="px-4 py-2 bg-gray-300 rounded"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                  onClick={handleWidgetUpdate}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {isModalOpen && (
+        <EditWidgetModal
+          selectedWidget={selectedWidget}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleWidgetUpdate}
+          onChange={setSelectedWidget}
+        />
       )}
     </div>
   );
