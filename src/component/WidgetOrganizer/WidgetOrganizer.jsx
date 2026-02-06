@@ -368,7 +368,7 @@ const WidgetCard = ({
       ${getWidgetTypeColor(widget._type)}
     `.trim() + ' relative p-2 sm:p-1 rounded-lg border-2 cursor-move transition-all duration-200 hover:shadow-md hover:scale-[1.02]'}
     onClick={() => onClick(widget)}
-    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nColumn: ${widget.column}\nCol: ${widget.col}`}
+    title={`widget.originalIndex: ${widget.originalIndex}\nLabel: ${widget.label}\nType: ${widget._type}\nCount: ${widget._count || '-'}\nRow: ${widget.row}\nCol: ${widget.col}`}
   >
     <div className="flex items-start justify-between">
       <div className="flex-1">
@@ -790,19 +790,7 @@ const EditWidgetModal = ({ selectedWidget, onClose, onSave, onChange }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Column (0-3)</label>
-            <input
-              type="number"
-              min="0"
-              max="3"
-              step="1"
-              className="w-full border p-2 rounded"
-              value={selectedWidget.column || ''}
-              onChange={(e) => onChange({ ...selectedWidget, column: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Col (Span)</label>
+            <label className="block text-sm font-medium">Column</label>
             <input
               type="text"
               className="w-full border p-2 rounded"
@@ -956,9 +944,6 @@ const WidgetOrganizer = () => {
     const updatedWidgets = newWidgets.map((widget, index) => ({
       ...widget,
       row: widget.row ? String(parseInt(widget.row)) : null,
-      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
-        ? String(parseInt(widget.column))
-        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
 
@@ -976,9 +961,6 @@ const WidgetOrganizer = () => {
         delete cleaned.rowMobile;
         if (cleaned.col === null || cleaned.col === undefined) {
           delete cleaned.col;
-        }
-        if (cleaned.column === null || cleaned.column === undefined) {
-          delete cleaned.column;
         }
         if (cleaned.row === null || cleaned.row === undefined) {
           delete cleaned.row;
@@ -1004,9 +986,6 @@ const WidgetOrganizer = () => {
       ...widget,
       rowMobile: index,
       row: widget.row ? String(parseInt(widget.row)) : null,
-      column: widget.column !== undefined && widget.column !== null && widget.column !== ''
-        ? String(parseInt(widget.column))
-        : null,
       col: widget.col ? String(parseInt(widget.col)) : null
     }));
     setWidgets(resetWidgets);
@@ -1075,29 +1054,21 @@ const WidgetOrganizer = () => {
     }
   };
 
-  const groupedWidgets = useMemo(() => {
-    const grouped = widgets.reduce((acc, widget, index) => {
-      const rowKey = widget.row ? String(parseInt(widget.row)) : '99';
-      if (!acc[rowKey]) acc[rowKey] = [];
-      acc[rowKey].push({ ...widget, originalIndex: index });
+  const groupedWidgets = useMemo(() => (
+    widgets.reduce((acc, widget, index) => {
+      let newrow = widget.row;
+      if (widget.col) {
+        newrow = newrow + ".10";
+      } else if (newrow) {
+        newrow = newrow + "." + index;
+      } else {
+        newrow = "99";
+      }
+      if (!acc[newrow]) acc[newrow] = [];
+      acc[newrow].push({ ...widget, originalIndex: index });
       return acc;
-    }, {});
-
-    Object.keys(grouped).forEach((rowKey) => {
-      grouped[rowKey].sort((a, b) => {
-        const columnA = a.column !== undefined && a.column !== null && a.column !== ''
-          ? parseInt(a.column)
-          : Number.POSITIVE_INFINITY;
-        const columnB = b.column !== undefined && b.column !== null && b.column !== ''
-          ? parseInt(b.column)
-          : Number.POSITIVE_INFINITY;
-        if (columnA !== columnB) return columnA - columnB;
-        return a.originalIndex - b.originalIndex;
-      });
-    });
-
-    return grouped;
-  }, [widgets]);
+    }, {})
+  ), [widgets]);
 
   return (
     <div className="max-w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
