@@ -9,7 +9,7 @@ import FilterBar from './FilterBar';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import { defaultProducts } from '../../lib/defaultProducts';
-import { fetchProductsData, generateStoryFromProducts } from '../../lib/utils';
+import { copyToClipboard, fetchProductsData, generateStoryFromProducts } from '../../lib/utils';
 import StorySidebar from './StorySidebar';
 import { siteConfig } from '../../lib/siteConfig';
 
@@ -74,9 +74,7 @@ const ProductListPage = () => {
   };
 
   const copyStoryToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(generatedStory);
-    } catch (e) {}
+    await copyToClipboard(generatedStory);
   };
 
   useEffect(() => {
